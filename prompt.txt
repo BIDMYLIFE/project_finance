@@ -11,3 +11,6 @@
 --未做
 收款與銀行入帳
 ERP 報表
+
+針對探索內容的資料庫與資料表提供一份完整的Database Schema與資料辭典說明文件。可以採用mermaid繪製相關Schema圖形。輸出到docs/Database Schema.md。
+針對changes/ financial-analysis-web-api 所有提案到規格到設計文件到任務，整理一份完整且有順序性的報告。可以採用mermaid相關圖形繪製說明。採用告報格式輸出到docs/開發計劃書.md
