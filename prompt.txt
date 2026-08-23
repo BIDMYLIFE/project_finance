@@ -1,0 +1,13 @@
+建立AGENTS.md，規定Spring Boot MVC與Web API基本規格定義。後端要採用分層架構，區分為Repository/Service/MVC Controller/Web API Controller。前端View Page採用技術棧(Tech Stack)採用離線架構，不允許採用CDN。RWD採用Boostrap 5.3，ajax採用axios，MVVM 採用Vue 3.0 JavaScript。對話盒採用Sweetalert2。網頁風格古典風格。
+
+/opsx-explore ...
+
+將這一個Explore 結果進行報告整理，可以採用mermaid繪製相關圖形。採用報告格式輸出到docs/財務系統探索.md。
+
+/opsx-propose 登入、JWT、登出與 ADMIN 初始化
+
+/opsx-propose - 完整財務系統
+
+--未做
+收款與銀行入帳
+ERP 報表
