@@ -1,0 +1,346 @@
+{
+  "changeName": "financial-erp-core",
+  "changeDir": "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core",
+  "schemaName": "spec-driven",
+  "contextFiles": {
+    "proposal": [
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\proposal.md"
+    ],
+    "specs": [
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\specs\\banking\\spec.md",
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\specs\\erp-reporting\\spec.md",
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\specs\\master-data\\spec.md",
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\specs\\payment-receipts\\spec.md",
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\specs\\sales-documents\\spec.md"
+    ],
+    "design": [
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\design.md"
+    ],
+    "tasks": [
+      "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic\\openspec\\changes\\financial-erp-core\\tasks.md"
+    ]
+  },
+  "progress": {
+    "total": 62,
+    "complete": 6,
+    "remaining": 56
+  },
+  "tasks": [
+    {
+      "id": "1",
+      "description": "1.1 Verify that `auth-jwt-admin-bootstrap` provides the authenticated `ADMIN` principal, organization context, cookie/API error contract, and protected-route integration required by this change",
+      "done": false
+    },
+    {
+      "id": "2",
+      "description": "1.2 Confirm the target tax jurisdiction fields, receipt/invoice branding and paper margins, supported currencies, date/timezone policy, and long-note print behavior before implementing affected views",
+      "done": false
+    },
+    {
+      "id": "3",
+      "description": "1.3 Confirm the SQL Server migration and integration-test strategy without committing real connection strings or credentials",
+      "done": false
+    },
+    {
+      "id": "4",
+      "description": "1.4 Add application dependencies and package structure for Spring Boot layers, SQL Server persistence, migrations, Vue 3, local Bootstrap 5.3, Axios, and SweetAlert2",
+      "done": true
+    },
+    {
+      "id": "5",
+      "description": "1.5 Implement shared DTO validation, API error response mapping, pagination/sorting parameters, organization context access, and audit actor resolution",
+      "done": true
+    },
+    {
+      "id": "6",
+      "description": "1.6 Implement fixed-precision money, quantity, tax, currency-scale, and rounding policies as shared domain services",
+      "done": false
+    },
+    {
+      "id": "7",
+      "description": "2.1 Create migrations for organizations, customers, products, payment categories, bank accounts, audit logs, and document/receipt sequences",
+      "done": true
+    },
+    {
+      "id": "8",
+      "description": "2.2 Create migrations for quotes, quote lines, invoices, invoice lines, payments, payment allocations, receipt print records, expenses, and bank transactions",
+      "done": true
+    },
+    {
+      "id": "9",
+      "description": "2.3 Add foreign keys, organization-scoped unique constraints, status/active constraints, source references, reversal references, and bounded-query indexes",
+      "done": true
+    },
+    {
+      "id": "10",
+      "description": "2.4 Add entity mappings and enums for master data, sales documents, payments, receipts, expenses, banks, audit records, and append-only transaction status",
+      "done": false
+    },
+    {
+      "id": "11",
+      "description": "2.5 Add repository interfaces and organization-scoped query methods for all shared domain aggregates",
+      "done": false
+    },
+    {
+      "id": "12",
+      "description": "3.1 Implement customer create, update, query, pagination, and deactivate services with organization-scoped uniqueness and active-state rules",
+      "done": false
+    },
+    {
+      "id": "13",
+      "description": "3.2 Implement product/service create, update, query, pagination, and deactivate services with price, currency, tax, and active-state validation",
+      "done": false
+    },
+    {
+      "id": "14",
+      "description": "3.3 Implement master-data Web API controllers with DTO responses, filtering, sorting, bounded page sizes, and centralized errors",
+      "done": true
+    },
+    {
+      "id": "15",
+      "description": "3.4 Add unit and integration tests for duplicate identifiers, invalid prices/currencies, inactive records, and cross-organization access",
+      "done": false
+    },
+    {
+      "id": "16",
+      "description": "4.1 Implement quote draft creation with active customer/product validation, line snapshots, tax calculation, currency policy, and validity dates",
+      "done": false
+    },
+    {
+      "id": "17",
+      "description": "4.2 Implement the quote state machine for `DRAFT`, `SENT`, `ACCEPTED`, `REJECTED`, `EXPIRED`, and `CANCELLED`, including invalid-transition errors",
+      "done": false
+    },
+    {
+      "id": "18",
+      "description": "4.3 Implement accepted-quote conversion to an invoice draft while preserving source quote, customer, line, currency, and tax-result references",
+      "done": false
+    },
+    {
+      "id": "19",
+      "description": "4.4 Implement invoice draft creation and line snapshots so issued documents do not change when product master data changes",
+      "done": false
+    },
+    {
+      "id": "20",
+      "description": "4.5 Implement organization/year invoice sequence locking, unique invoice numbers, issue transaction, and non-reusable numbering behavior",
+      "done": false
+    },
+    {
+      "id": "21",
+      "description": "4.6 Implement invoice state transitions, due-date overdue evaluation, cancellation rules, paid totals, and balance-due updates",
+      "done": false
+    },
+    {
+      "id": "22",
+      "description": "4.7 Implement invoice/payment allocation validation so total allocations cannot exceed payment amount or invoice outstanding balance",
+      "done": false
+    },
+    {
+      "id": "23",
+      "description": "4.8 Add quote/invoice API controllers, DTOs, list filters, detail responses, and source-document traceability",
+      "done": false
+    },
+    {
+      "id": "24",
+      "description": "4.9 Add calculation, sequence-concurrency, state-transition, conversion, allocation, overdue, and organization-isolation tests",
+      "done": false
+    },
+    {
+      "id": "25",
+      "description": "5.1 Implement organization-scoped payment categories with active-state management and seed/configuration support for initial categories",
+      "done": false
+    },
+    {
+      "id": "26",
+      "description": "5.2 Implement payment draft/confirmation validation requiring exactly one active category, non-empty reason, valid amount/date/method, and optional note",
+      "done": false
+    },
+    {
+      "id": "27",
+      "description": "5.3 Implement organization/year receipt sequence locking and immutable receipt-number creation in the payment confirmation transaction",
+      "done": false
+    },
+    {
+      "id": "28",
+      "description": "5.4 Implement multi-invoice payment allocation and remaining unallocated amount tracking with atomic rollback on validation failure",
+      "done": false
+    },
+    {
+      "id": "29",
+      "description": "5.5 Implement `PENDING_DEPOSIT`, `POSTED`, and `VOIDED` payment transitions without deleting payments or reusing receipt numbers",
+      "done": false
+    },
+    {
+      "id": "30",
+      "description": "5.6 Implement organization-scoped reason/note autocomplete queries, field-type filtering, active filtering, bounded results, and cache invalidation",
+      "done": false
+    },
+    {
+      "id": "31",
+      "description": "5.7 Implement receipt print records and fixed A4 portrait three-copy output using the saved payment snapshot and one shared receipt number",
+      "done": false
+    },
+    {
+      "id": "32",
+      "description": "5.8 Implement receipt reprint behavior and long-note layout limits so reprints never create a second payment or a second receipt number",
+      "done": false
+    },
+    {
+      "id": "33",
+      "description": "5.9 Implement payment confirmation, allocation, receipt, autocomplete, reprint, void, and organization-isolation Web APIs",
+      "done": false
+    },
+    {
+      "id": "34",
+      "description": "5.10 Add payment, receipt sequence, allocation rollback, suggestion isolation, void-history, and reprint tests",
+      "done": false
+    },
+    {
+      "id": "35",
+      "description": "6.1 Implement organization-scoped bank-account services with active-state, currency-compatibility, opening-balance, and deactivation rules",
+      "done": false
+    },
+    {
+      "id": "36",
+      "description": "6.2 Implement append-only `CREDIT`/`DEBIT` bank transaction persistence, source references, reversal references, status, and balance query projections",
+      "done": false
+    },
+    {
+      "id": "37",
+      "description": "6.3 Implement pending-deposit posting as one transaction that creates a bank Credit and changes the payment to `POSTED`",
+      "done": false
+    },
+    {
+      "id": "38",
+      "description": "6.4 Implement expense create/confirm/void services and post confirmed expenses as auditable bank Debits",
+      "done": false
+    },
+    {
+      "id": "39",
+      "description": "6.5 Implement account-to-account transfers as atomic source Debit and destination Credit pairs with shared transfer references",
+      "done": false
+    },
+    {
+      "id": "40",
+      "description": "6.6 Implement posted-payment account changes and financial corrections using reversal/void chains plus a new valid Credit without overwriting history",
+      "done": false
+    },
+    {
+      "id": "41",
+      "description": "6.7 Implement bank-account, expense, deposit, transfer, correction, and balance Web APIs with organization scope and centralized errors",
+      "done": false
+    },
+    {
+      "id": "42",
+      "description": "6.8 Add tests for inactive/foreign accounts, balance recomputation, posting rollback, transfer atomicity, reversal chains, and cross-organization isolation",
+      "done": false
+    },
+    {
+      "id": "43",
+      "description": "7.1 Implement bounded report query specifications with shared organization, date, customer, category, bank-account, currency, status, sort, and pagination filters",
+      "done": false
+    },
+    {
+      "id": "44",
+      "description": "7.2 Implement pending-deposit and payment-category reports using `received_at`, receipt fields, valid-state totals, and traceable source rows",
+      "done": false
+    },
+    {
+      "id": "45",
+      "description": "7.3 Implement bank-balance, invoice-status, receivable-aging, expense, tax, and ERP cash-flow summary queries with their documented date bases",
+      "done": false
+    },
+    {
+      "id": "46",
+      "description": "7.4 Implement exclusion and reversal rules so voided, cancelled, and reversed records do not duplicate effective totals",
+      "done": false
+    },
+    {
+      "id": "47",
+      "description": "7.5 Implement report detail traceability to source invoices, payments, expenses, and bank transactions within the current organization",
+      "done": false
+    },
+    {
+      "id": "48",
+      "description": "7.6 Implement CSV export by reusing report query specifications and including filters, date basis, currency, headings, totals, and generation time",
+      "done": false
+    },
+    {
+      "id": "49",
+      "description": "7.7 Implement report Web APIs with consistent rows, summary, pagination, applied-filters, empty-state, and export responses",
+      "done": false
+    },
+    {
+      "id": "50",
+      "description": "7.8 Add report tests comparing summaries with source records, validating aging buckets, CSV consistency, bounded queries, and organization isolation",
+      "done": false
+    },
+    {
+      "id": "51",
+      "description": "8.1 Add local vendor/build assets for Vue 3, Bootstrap 5.3, Axios, SweetAlert2, fonts, and icons with no CDN or external runtime dependency",
+      "done": false
+    },
+    {
+      "id": "52",
+      "description": "8.2 Implement shared Vue API services and state handling for loading, success, validation error, network error, empty data, disabled, and retry states",
+      "done": false
+    },
+    {
+      "id": "53",
+      "description": "8.3 Implement responsive, keyboard-accessible customer, product, quote, invoice, payment, bank, expense, and report pages using the API contracts",
+      "done": false
+    },
+    {
+      "id": "54",
+      "description": "8.4 Implement autocomplete form controls that retain editable selected text and distinguish reason from note suggestions",
+      "done": false
+    },
+    {
+      "id": "55",
+      "description": "8.5 Implement receipt print view and print stylesheet with A4 portrait sizing, three fixed copies, page-break rules, and browser print-preview verification",
+      "done": false
+    },
+    {
+      "id": "56",
+      "description": "8.6 Implement CSV download feedback and report filters so the exported dataset matches the visible query",
+      "done": false
+    },
+    {
+      "id": "57",
+      "description": "8.7 Add browser tests for core workflows at desktop and mobile viewports, including no-overlap, keyboard focus, empty/error states, CSV download, and one-page receipt printing",
+      "done": false
+    },
+    {
+      "id": "58",
+      "description": "9.1 Run migrations against a clean SQL Server test database and verify rollback behavior for failed cross-aggregate transactions",
+      "done": false
+    },
+    {
+      "id": "59",
+      "description": "9.2 Run unit, integration, API, security-boundary, concurrency, browser, report, CSV, and print tests with at least two organizations",
+      "done": false
+    },
+    {
+      "id": "60",
+      "description": "9.3 Verify no API response, log, fixture, CSV, frontend asset, or documentation contains real passwords, JWT secrets, database credentials, or stack traces",
+      "done": false
+    },
+    {
+      "id": "61",
+      "description": "9.4 Run formatting, static checks, test suites, and the full build; resolve only failures introduced by this change",
+      "done": false
+    },
+    {
+      "id": "62",
+      "description": "9.5 Document deployment order, required authentication prerequisite, SQL Server migration procedure, offline startup, backup/dry-run steps, and known non-goals",
+      "done": false
+    }
+  ],
+  "state": "ready",
+  "instruction": "Read context files, work through pending tasks, mark complete as you go.\nPause if you hit blockers or need clarification.",
+  "root": {
+    "path": "C:\\Users\\charles\\OneDrive\\2026-8-緯育網課\\0823\\workspace_pratic",
+    "source": "nearest"
+  }
+}

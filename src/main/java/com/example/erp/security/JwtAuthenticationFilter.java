@@ -22,6 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null) {
             try {
                 Claims claims = jwtService.parse(token);
+                if (!"ADMIN".equals(claims.get("role", String.class))) throw new IllegalArgumentException("Unsupported role");
                 AuthPrincipal principal = new AuthPrincipal(UUID.fromString(claims.getSubject()), UUID.fromString(claims.get("org", String.class)), "jwt", UUID.fromString(claims.get("sid", String.class)));
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities()));
             } catch (RuntimeException ignored) {

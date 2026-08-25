@@ -8,6 +8,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
+import jakarta.servlet.FilterChain;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -46,6 +48,24 @@ class SecurityUnitTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         new AuthenticationCookie(properties).set(response, "access-test", "refresh-test");
         assertThat(response.getHeaders("Set-Cookie")).allMatch(value -> value.contains("HttpOnly") && value.contains("Secure") && value.contains("SameSite=Strict"));
+    }
+
+    @Test
+    void jwtWithNonAdminRoleDoesNotAuthenticate() throws Exception {
+        SecurityProperties properties = properties();
+        JwtService service = new JwtService(properties);
+        UUID sessionId = UUID.randomUUID();
+        String token = io.jsonwebtoken.Jwts.builder().subject(UUID.randomUUID().toString())
+                .claim("org", UUID.randomUUID().toString()).claim("role", "USER").claim("sid", sessionId.toString())
+                .issuedAt(java.util.Date.from(Instant.now())).expiration(java.util.Date.from(Instant.now().plusSeconds(300)))
+                .signWith(io.jsonwebtoken.security.Keys.hmacShaKeyFor(properties.getJwt().getSecret().getBytes(java.nio.charset.StandardCharsets.UTF_8))).compact();
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setCookies(new jakarta.servlet.http.Cookie(properties.getCookie().getAccessName(), token));
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        FilterChain chain = (req, res) -> {};
+        new JwtAuthenticationFilter(service, properties).doFilter(request, response, chain);
+
+        assertThat(org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication()).isNull();
     }
 
     private SecurityProperties properties() {

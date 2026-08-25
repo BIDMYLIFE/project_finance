@@ -1,6 +1,6 @@
 ## 1. Preconditions and Shared Contracts
 
-- [ ] 1.1 Verify that `auth-jwt-admin-bootstrap` provides authenticated `ADMIN` principal, organization context, protected-route behavior, and the shared API error contract
+- [x] 1.1 Verify that `auth-jwt-admin-bootstrap` provides authenticated `ADMIN` principal, organization context, protected-route behavior, and the shared API error contract
 - [ ] 1.2 Verify the sales-document invoice contract exposes organization, currency, outstanding balance, and locking behavior required for payment allocation
 - [ ] 1.3 Confirm the receipt-year rule, organization timezone, supported currencies, receipt branding, paper margins, three-copy labels, and long-note print limit
 - [ ] 1.4 Define the shared DTO validation, pagination limits, money scale/rounding policy, status enums, audit actor fields, and conflict/error codes
