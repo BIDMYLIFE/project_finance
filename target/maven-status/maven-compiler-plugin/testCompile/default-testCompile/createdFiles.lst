@@ -1,0 +1,5 @@
+com\example\erp\reporting\ReportingFoundationTest.class
+com\example\erp\service\AuthServiceUnitTest.class
+com\example\erp\security\SecurityUnitTest.class
+com\example\erp\service\MasterDataServiceUnitTest.class
+com\example\erp\exception\ApiExceptionHandlerUnitTest.class

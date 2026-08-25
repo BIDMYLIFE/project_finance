@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>系統初始化</title><link rel="stylesheet" href="/webjars/bootstrap/5.3.8/dist/css/bootstrap.min.css"><link rel="stylesheet" th:href="@{/css/auth.css}"></head>
+<body><main id="bootstrap-app" class="panel"><p class="eyebrow">SOUTHWND ERP</p><h1>首次系統初始化</h1><form @submit.prevent="submit"><label>組織名稱<input v-model.trim="form.organizationName" required maxlength="200"></label><label>管理員 Email<input v-model.trim="form.email" type="email" required></label><label>管理員密碼<input v-model="form.password" type="password" minlength="12" required></label><button type="submit" :disabled="loading">{{ loading ? '處理中...' : '建立管理員' }}</button><p id="message" role="alert">{{ message }}</p></form></main><script src="/webjars/vue/3.5.18/dist/vue.global.prod.js"></script><script src="/webjars/axios/1.11.0/dist/axios.min.js"></script><script src="/webjars/sweetalert2/11.23.0/dist/sweetalert2.all.min.js"></script><script src="/js/auth-bootstrap.js"></script></body>
+</html>

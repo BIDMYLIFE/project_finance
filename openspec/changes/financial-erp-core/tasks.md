@@ -3,15 +3,15 @@
 - [ ] 1.1 Verify that `auth-jwt-admin-bootstrap` provides the authenticated `ADMIN` principal, organization context, cookie/API error contract, and protected-route integration required by this change
 - [ ] 1.2 Confirm the target tax jurisdiction fields, receipt/invoice branding and paper margins, supported currencies, date/timezone policy, and long-note print behavior before implementing affected views
 - [ ] 1.3 Confirm the SQL Server migration and integration-test strategy without committing real connection strings or credentials
-- [ ] 1.4 Add application dependencies and package structure for Spring Boot layers, SQL Server persistence, migrations, Vue 3, local Bootstrap 5.3, Axios, and SweetAlert2
-- [ ] 1.5 Implement shared DTO validation, API error response mapping, pagination/sorting parameters, organization context access, and audit actor resolution
+- [x] 1.4 Add application dependencies and package structure for Spring Boot layers, SQL Server persistence, migrations, Vue 3, local Bootstrap 5.3, Axios, and SweetAlert2
+- [x] 1.5 Implement shared DTO validation, API error response mapping, pagination/sorting parameters, organization context access, and audit actor resolution
 - [ ] 1.6 Implement fixed-precision money, quantity, tax, currency-scale, and rounding policies as shared domain services
 
 ## 2. Database Schema and Shared Domain
 
-- [ ] 2.1 Create migrations for organizations, customers, products, payment categories, bank accounts, audit logs, and document/receipt sequences
-- [ ] 2.2 Create migrations for quotes, quote lines, invoices, invoice lines, payments, payment allocations, receipt print records, expenses, and bank transactions
-- [ ] 2.3 Add foreign keys, organization-scoped unique constraints, status/active constraints, source references, reversal references, and bounded-query indexes
+- [x] 2.1 Create migrations for organizations, customers, products, payment categories, bank accounts, audit logs, and document/receipt sequences
+- [x] 2.2 Create migrations for quotes, quote lines, invoices, invoice lines, payments, payment allocations, receipt print records, expenses, and bank transactions
+- [x] 2.3 Add foreign keys, organization-scoped unique constraints, status/active constraints, source references, reversal references, and bounded-query indexes
 - [ ] 2.4 Add entity mappings and enums for master data, sales documents, payments, receipts, expenses, banks, audit records, and append-only transaction status
 - [ ] 2.5 Add repository interfaces and organization-scoped query methods for all shared domain aggregates
 
@@ -19,7 +19,7 @@
 
 - [ ] 3.1 Implement customer create, update, query, pagination, and deactivate services with organization-scoped uniqueness and active-state rules
 - [ ] 3.2 Implement product/service create, update, query, pagination, and deactivate services with price, currency, tax, and active-state validation
-- [ ] 3.3 Implement master-data Web API controllers with DTO responses, filtering, sorting, bounded page sizes, and centralized errors
+- [x] 3.3 Implement master-data Web API controllers with DTO responses, filtering, sorting, bounded page sizes, and centralized errors
 - [ ] 3.4 Add unit and integration tests for duplicate identifiers, invalid prices/currencies, inactive records, and cross-organization access
 
 ## 4. Quotes and Invoices

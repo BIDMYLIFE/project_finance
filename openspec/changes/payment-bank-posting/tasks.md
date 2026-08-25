@@ -8,10 +8,10 @@
 
 ## 2. Database Schema and Persistence
 
-- [ ] 2.1 Create SQL Server migrations for organization-scoped payment categories, payments, payment allocations, receipt sequences, and receipt print records
-- [ ] 2.2 Create SQL Server migrations for bank accounts and append-only bank transactions with source, reversal, status, actor, currency, and date fields
-- [ ] 2.3 Add foreign keys, organization-scoped unique constraints, positive-amount and enum constraints, receipt sequence constraints, and source/reversal indexes
-- [ ] 2.4 Add bounded-query indexes for organization, status, received/transaction dates, account, currency, category, and invoice allocation lookups
+- [x] 2.1 Create SQL Server migrations for organization-scoped payment categories, payments, payment allocations, receipt sequences, and receipt print records
+- [x] 2.2 Create SQL Server migrations for bank accounts and append-only bank transactions with source, reversal, status, actor, currency, and date fields
+- [x] 2.3 Add foreign keys, organization-scoped unique constraints, positive-amount and enum constraints, receipt sequence constraints, and source/reversal indexes
+- [x] 2.4 Add bounded-query indexes for organization, status, received/transaction dates, account, currency, category, and invoice allocation lookups
 - [ ] 2.5 Add entity mappings and repository queries that always constrain payment, receipt, category, account, transaction, and allocation access by organization
 - [ ] 2.6 Verify clean-database migration and rollback behavior without destructive deletion of financial history
 

@@ -7,12 +7,12 @@
 
 ## 2. Shared Report Query Foundation
 
-- [ ] 2.1 Define report type, filter request, normalized applied-filter, date-basis, row, summary, pagination, empty-state, and typed-source-reference DTOs
-- [ ] 2.2 Implement shared validation for date ranges, default/bounded periods, page/size, sort fields, status values, currencies, and applicable filter combinations
-- [ ] 2.3 Implement authenticated organization-scope resolution that ignores organization ids supplied by query, path, or request body
-- [ ] 2.4 Implement shared effective-state predicates for cancelled, voided, reversed, posted, and other source status rules
+- [x] 2.1 Define report type, filter request, normalized applied-filter, date-basis, row, summary, pagination, empty-state, and typed-source-reference DTOs
+- [x] 2.2 Implement shared validation for date ranges, default/bounded periods, page/size, sort fields, status values, currencies, and applicable filter combinations
+- [x] 2.3 Implement authenticated organization-scope resolution that ignores organization ids supplied by query, path, or request body
+- [x] 2.4 Implement shared effective-state predicates for cancelled, voided, reversed, posted, and other source status rules
 - [ ] 2.5 Implement report query service/repository projections with organization, date-basis, status, customer, category, account, currency, and source indexes
-- [ ] 2.6 Add empty-result and summary-zero behavior to the common report response contract
+- [x] 2.6 Add empty-result and summary-zero behavior to the common report response contract
 
 ## 3. Payment and Banking Reports
 

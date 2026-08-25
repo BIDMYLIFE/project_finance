@@ -1,0 +1,3 @@
+package com.example.erp.reporting;
+
+public enum ReportType { PENDING_DEPOSITS, PAYMENT_CATEGORIES, BANK_BALANCE, INVOICE_STATUS, RECEIVABLE_AGING, EXPENSES, TAX, CASH_FLOW }

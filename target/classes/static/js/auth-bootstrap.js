@@ -1,0 +1,4 @@
+Vue.createApp({ data: () => ({ form: { organizationName: '', email: '', password: '' }, loading: false, message: '' }), methods: {
+  async submit() { this.loading = true; this.message = ''; try { await axios.post('/api/v1/auth/bootstrap', this.form); this.message = '初始化完成，請前往登入頁面。'; await Swal.fire({ icon: 'success', title: '初始化完成', text: '管理員帳號已建立。' }); this.form = { organizationName: '', email: '', password: '' }; } catch (error) { this.message = error.response?.data?.message || '初始化失敗'; await Swal.fire({ icon: 'error', title: '初始化失敗', text: this.message }); } finally { this.loading = false; }
+  }
+} }).mount('#bootstrap-app');
