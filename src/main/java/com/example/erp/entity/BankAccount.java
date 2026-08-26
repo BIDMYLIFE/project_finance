@@ -28,4 +28,5 @@ public class BankAccount {
     public String getCurrencyCode() { return currencyCode; }
     public BigDecimal getOpeningBalance() { return openingBalance; }
     public boolean isActive() { return active; }
+    public Instant getCreatedAt() { return createdAt; }
 }

@@ -64,6 +64,20 @@ class DashboardNavigationTest {
     }
 
     @Test
+    void invoiceManagementHasAvailableRoute() throws IOException {
+        String js = readResource("static/js/capability-registry.js");
+        assertTrue(js.contains("id: 'invoices', labelKey: 'capability.invoices', route: '/invoices', available: true"));
+        assertTrue(js.contains("owner: 'invoice-ui-crud'"));
+    }
+
+    @Test
+    void bankingManagementHasAvailableRoute() throws IOException {
+        String js = readResource("static/js/capability-registry.js");
+        assertTrue(js.contains("id: 'banking', labelKey: 'capability.banking', route: '/banking', available: true"), "Banking capability should be available");
+        assertTrue(js.contains("owner: 'bank-account-ui-crud'"), "Banking capability owner is missing");
+    }
+
+    @Test
     void dashboardHasAccessibleNavbarToggler() throws IOException {
         String html = readResource("templates/dashboard.html");
         assertTrue(html.contains("navbar-toggler"), "Missing navbar toggler");
