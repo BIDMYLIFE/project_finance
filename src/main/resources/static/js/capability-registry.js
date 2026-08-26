@@ -2,7 +2,7 @@
   var registry = [
     { id: 'dashboard', labelKey: 'capability.dashboard', route: '/', available: true, owner: 'dashboard-post-auth-routing' },
     { id: 'customers', labelKey: 'capability.customers', route: '/customers', available: true, owner: 'financial-erp-core' },
-    { id: 'products', labelKey: 'capability.products', route: null, available: false, owner: 'financial-erp-core' },
+    { id: 'products', labelKey: 'capability.products', route: '/products', available: true, owner: 'financial-erp-core' },
     { id: 'quotes', labelKey: 'capability.quotes', route: null, available: false, owner: 'financial-erp-core' },
     { id: 'invoices', labelKey: 'capability.invoices', route: null, available: false, owner: 'financial-erp-core' },
     { id: 'payments', labelKey: 'capability.payments', route: null, available: false, owner: 'financial-erp-core' },

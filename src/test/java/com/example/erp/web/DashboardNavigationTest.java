@@ -45,6 +45,13 @@ class DashboardNavigationTest {
     }
 
     @Test
+    void productManagementHasAvailableRoute() throws IOException {
+        String js = readResource("static/js/capability-registry.js");
+        assertTrue(js.contains("route: '/products'"), "Missing product route");
+        assertTrue(js.contains("id: 'products', labelKey: 'capability.products', route: '/products', available: true"), "Products capability should be available");
+    }
+
+    @Test
     void unavailableCapabilitiesHaveNullRoute() throws IOException {
         String js = readResource("static/js/capability-registry.js");
         assertTrue(js.contains("route: null"), "Unavailable capabilities should have null route");
@@ -88,7 +95,6 @@ class DashboardNavigationTest {
     @Test
     void dashboardDoesNotLinkToUndefinedRoutes() throws IOException {
         String html = readResource("templates/dashboard.html");
-        assertFalse(html.contains("href=\"/products\""), "Products should not have a direct link");
         assertFalse(html.contains("href=\"/quotes\""), "Quotes should not have a direct link");
         assertFalse(html.contains("href=\"/invoices\""), "Invoices should not have a direct link");
         assertFalse(html.contains("href=\"/payments\""), "Payments should not have a direct link");

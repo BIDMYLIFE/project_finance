@@ -23,6 +23,7 @@ class I18nVerificationTest {
             "templates/auth/login.html",
             "templates/auth/bootstrap.html",
             "templates/customers/list.html"
+            , "templates/products/list.html"
     );
 
     private static final Set<String> JS_PATHS = Set.of(
@@ -34,6 +35,7 @@ class I18nVerificationTest {
             "static/js/erp-state.js",
             "static/js/api/customers-api.js",
             "static/js/pages/customers.js"
+            , "static/js/api/products-api.js", "static/js/pages/products.js"
     );
 
     private static final Pattern CHINESE_PATTERN = Pattern.compile("[\\u4e00-\\u9fff]");
