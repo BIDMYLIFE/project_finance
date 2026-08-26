@@ -21,7 +21,8 @@ class I18nVerificationTest {
     private static final Set<String> TEMPLATE_PATHS = Set.of(
             "templates/dashboard.html",
             "templates/auth/login.html",
-            "templates/auth/bootstrap.html"
+            "templates/auth/bootstrap.html",
+            "templates/customers/list.html"
     );
 
     private static final Set<String> JS_PATHS = Set.of(
@@ -30,7 +31,9 @@ class I18nVerificationTest {
             "static/js/auth-login.js",
             "static/js/auth-bootstrap.js",
             "static/js/capability-registry.js",
-            "static/js/erp-state.js"
+            "static/js/erp-state.js",
+            "static/js/api/customers-api.js",
+            "static/js/pages/customers.js"
     );
 
     private static final Pattern CHINESE_PATTERN = Pattern.compile("[\\u4e00-\\u9fff]");
