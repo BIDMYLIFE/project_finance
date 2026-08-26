@@ -36,8 +36,11 @@ public class Payment {
     }
     public void post() { status = PaymentStatus.POSTED; }
     public void voidPayment() { status = PaymentStatus.VOIDED; }
+    public void changeBankAccount(UUID bankAccountId) { this.bankAccountId = bankAccountId; }
+    public void assignCustomer(UUID customerId) { this.customerId = customerId; }
     public UUID getId() { return id; }
     public UUID getOrganizationId() { return organizationId; }
+    public UUID getCustomerId() { return customerId; }
     public UUID getCategoryId() { return categoryId; }
     public UUID getBankAccountId() { return bankAccountId; }
     public UUID getActorId() { return actorId; }
@@ -50,4 +53,5 @@ public class Payment {
     public PaymentMethod getPaymentMethod() { return paymentMethod; }
     public LocalDate getReceivedAt() { return receivedAt; }
     public PaymentStatus getStatus() { return status; }
+    public Instant getCreatedAt() { return createdAt; }
 }

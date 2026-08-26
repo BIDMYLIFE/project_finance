@@ -5,7 +5,7 @@
     { id: 'products', labelKey: 'capability.products', route: '/products', available: true, owner: 'financial-erp-core' },
     { id: 'quotes', labelKey: 'capability.quotes', route: '/quotes', available: true, owner: 'quotes-ui' },
     { id: 'invoices', labelKey: 'capability.invoices', route: '/invoices', available: true, owner: 'invoice-ui-crud' },
-    { id: 'payments', labelKey: 'capability.payments', route: null, available: false, owner: 'financial-erp-core' },
+    { id: 'payments', labelKey: 'capability.payments', route: '/payments', available: true, owner: 'payment-ui-crud' },
     { id: 'banking', labelKey: 'capability.banking', route: '/banking', available: true, owner: 'bank-account-ui-crud' },
     { id: 'reporting', labelKey: 'capability.reporting', route: null, available: false, owner: 'erp-reporting' }
   ];

@@ -23,4 +23,5 @@ public class PaymentCategory {
     public UUID getOrganizationId() { return organizationId; }
     public String getName() { return name; }
     public boolean isActive() { return active; }
+    public Instant getCreatedAt() { return createdAt; }
 }

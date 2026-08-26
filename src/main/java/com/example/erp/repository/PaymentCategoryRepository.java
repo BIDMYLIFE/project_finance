@@ -10,5 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PaymentCategoryRepository extends JpaRepository<PaymentCategory, UUID> {
     Optional<PaymentCategory> findByIdAndOrganizationId(UUID id, UUID organizationId);
     Page<PaymentCategory> findByOrganizationIdAndActive(UUID organizationId, boolean active, Pageable pageable);
+    Page<PaymentCategory> findByOrganizationId(UUID organizationId, Pageable pageable);
     boolean existsByOrganizationIdAndNameIgnoreCase(UUID organizationId, String name);
 }

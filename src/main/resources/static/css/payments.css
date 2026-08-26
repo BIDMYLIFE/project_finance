@@ -1,0 +1,9 @@
+body { background:#f6f1e8; color:#2b2622; font-family: Georgia, 'Times New Roman', serif; }
+.payments-shell { max-width:1400px; margin:0 auto; padding:2rem 1rem 4rem; }
+.payments-header,.filter-panel,.results-panel,.payment-form { background:#fffdf8; border:1px solid #c9b99f; box-shadow:0 4px 18px rgba(65,42,25,.08); }
+.payments-header { padding:2rem; border-top:5px solid #6f263d; } .payments-header h1 { font-weight:700; }
+.filter-panel,.results-panel { margin-top:1rem; padding:1.25rem; } .btn-wine { background:#6f263d; color:#fff; } .btn-wine:hover { background:#521b2d; color:#fff; }
+.status-badge { display:inline-block; padding:.25rem .55rem; border-radius:999px; font-size:.8rem; border:1px solid #a88; } .status-badge.posted { color:#17633b; border-color:#77a889; } .status-badge.voided { color:#812b2b; border-color:#c98b8b; }
+.payment-form { padding:1.5rem; margin-top:1rem; } .actions-cell { white-space:nowrap; } [v-cloak] { display:none; }
+.receipt-page { max-width:210mm; margin:1rem auto; background:#fffdf8; padding:8mm; } .receipt-actions { text-align:right; margin-bottom:1rem; } .receipt-copy { min-height:82mm; border:1px solid #6f263d; padding:8mm; margin-bottom:4mm; } .receipt-copy h1 { color:#6f263d; }
+@media print { @page { size:A4 portrait; margin:8mm; } body { background:#fff; } .receipt-page { margin:0; padding:0; } .receipt-actions { display:none; } .receipt-copy { page-break-inside:avoid; margin-bottom:4mm; } }

@@ -131,9 +131,15 @@ class DashboardNavigationTest {
     void dashboardDoesNotLinkToUndefinedRoutes() throws IOException {
         String html = readResource("templates/dashboard.html");
         assertFalse(html.contains("href=\"/invoices\""), "Invoices should not have a direct link");
-        assertFalse(html.contains("href=\"/payments\""), "Payments should not have a direct link");
         assertFalse(html.contains("href=\"/banking\""), "Banking should not have a direct link");
         assertFalse(html.contains("href=\"/reporting\""), "Reporting should not have a direct link");
+    }
+
+    @Test
+    void paymentCapabilityIsAvailableAtPaymentsRoute() throws IOException {
+        String js = readResource("static/js/capability-registry.js");
+        assertTrue(js.contains("id: 'payments'") && js.contains("route: '/payments'") && js.contains("available: true"),
+                "Payments capability should link to the live payments page");
     }
 
     @Test
