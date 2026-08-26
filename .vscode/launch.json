@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "ErpApplication",
+            "request": "launch",
+            "mainClass": "com.example.erp.ErpApplication",
+            "projectName": "financial-erp"
+        },
+        {
             "name": "PowerShell: Launch Current File",
             "type": "PowerShell",
             "request": "launch",

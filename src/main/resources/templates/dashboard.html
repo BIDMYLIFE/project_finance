@@ -13,7 +13,7 @@
       <button class="btn btn-sm btn-outline-secondary" type="button" @click="loadIdentity" :disabled="ui.loading" th:text="#{dashboard.identity.retry}">重試</button>
     </div>
     <p v-else-if="ui.error" class="alert alert-warning" role="alert">{{ ui.error }} <button class="btn btn-sm btn-link" type="button" @click="loadIdentity" th:text="#{dashboard.identity.retry}">重試</button></p>
-    <dl v-else-if="identity"><dt th:text="#{dashboard.identity.email}">Email</dt><dd>{{ identity.email }}</dd><dt th:text="#{dashboard.identity.user_id}">使用者 ID</dt><dd>{{ identity.userId }}</dd><dt th:text="#{dashboard.identity.organization_id}">組織 ID</dt><dd>{{ identity.organizationId }}</dd></dl>
+    <dl v-else-if="identity"><dt th:text="#{dashboard.identity.email}">Email</dt><dd>{{ identity.email }}</dd><dt th:text="#{dashboard.identity.organization_name}">組織名稱</dt><dd>{{ identity.organizationName }}</dd><dt th:text="#{dashboard.identity.role_name}">角色</dt><dd>{{ identity.roleName }}</dd></dl>
     <p v-else role="status" th:text="#{dashboard.identity.no_data}">目前沒有可顯示的身分資料。</p>
   </section></div>
 </main><script src="/webjars/bootstrap/5.3.8/dist/js/bootstrap.bundle.min.js"></script><script src="/webjars/vue/3.5.18/dist/vue.global.prod.js"></script><script src="/webjars/axios/1.11.0/dist/axios.min.js"></script><script src="/webjars/sweetalert2/11.23.0/dist/sweetalert2.all.min.js"></script><script th:inline="javascript">window.__ERP_MESSAGES__ = /*[[${messages}]]*/ {};</script><script src="/js/api-client.js"></script><script src="/js/erp-state.js"></script><script src="/js/capability-registry.js"></script><script src="/js/dashboard.js"></script></body></html>

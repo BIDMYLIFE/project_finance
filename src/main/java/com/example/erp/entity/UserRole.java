@@ -21,6 +21,7 @@ public class UserRole {
 
     protected UserRole() {}
     public UserRole(UUID userId, String roleName) { this.userId = userId; this.roleName = roleName; }
+    public String getRoleName() { return roleName; }
     public static final class Key implements Serializable {
         private UUID userId;
         private String roleName;

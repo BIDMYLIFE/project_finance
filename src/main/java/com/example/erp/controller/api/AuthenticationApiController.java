@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.erp.repository.OrganizationRepository;
+import com.example.erp.repository.UserRoleRepository;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -28,8 +30,12 @@ public class AuthenticationApiController {
     private final AuthService authService;
     private final AuthenticationCookie cookies;
     private final SecurityProperties properties;
-    public AuthenticationApiController(BootstrapService bootstrapService, AuthService authService, AuthenticationCookie cookies, SecurityProperties properties) {
+    private final OrganizationRepository organizations;
+    private final UserRoleRepository userRoleRepository;
+    public AuthenticationApiController(BootstrapService bootstrapService, AuthService authService, AuthenticationCookie cookies, SecurityProperties properties,
+                                        OrganizationRepository organizations, UserRoleRepository userRoleRepository) {
         this.bootstrapService = bootstrapService; this.authService = authService; this.cookies = cookies; this.properties = properties;
+        this.organizations = organizations; this.userRoleRepository = userRoleRepository;
     }
     @PostMapping("/bootstrap")
     public ResponseEntity<AuthResponse> bootstrap(@Valid @RequestBody BootstrapRequest request) {
@@ -44,7 +50,20 @@ public class AuthenticationApiController {
     }
     @org.springframework.web.bind.annotation.GetMapping("/me")
     public CurrentIdentityResponse currentIdentity(@AuthenticationPrincipal AuthPrincipal principal) {
-        return CurrentIdentityResponse.from(principal);
+        var response = CurrentIdentityResponse.from(principal);
+        if (principal.organizationId() != null) {
+            var organization = organizations.findById(principal.organizationId()).orElse(null);
+            if (organization != null) response = new CurrentIdentityResponse(
+                response.userId(), response.email(), response.organizationId(), organization.getName(), response.roleName()
+            );
+        }
+        if (principal.userId() != null) {
+            var roles = userRoleRepository.findByUserId(principal.userId());
+            if (!roles.isEmpty()) response = new CurrentIdentityResponse(
+                response.userId(), response.email(), response.organizationId(), response.organizationName(), roles.get(0).getRoleName()
+            );
+        }
+        return response;
     }
     @PostMapping("/refresh")
     public AuthResponse refresh(HttpServletRequest request, HttpServletResponse response) {
