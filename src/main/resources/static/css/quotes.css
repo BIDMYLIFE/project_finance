@@ -1,0 +1,50 @@
+:root { --ink: #20231f; --paper: #f5f0e6; --wine: #6b2635; --bronze: #98754c; --mist: #fffdf8; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; color: var(--ink); background: radial-gradient(circle at top, #fffaf0, var(--paper)); font-family: Georgia, "Times New Roman", serif; }
+[v-cloak] { display: none; }
+.quotes-shell { min-height: 100vh; }
+.quotes-nav { background: var(--ink); border-bottom: 3px solid var(--bronze); }
+.quotes-nav .navbar-brand, .quotes-nav .nav-link { color: var(--mist); }
+.quotes-nav .nav-link:hover { color: #d7ad54; }
+.quotes-nav .nav-link:focus-visible, button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #d7ad54; outline-offset: 3px; }
+.container { max-width: 86rem; }
+.eyebrow { color: var(--wine); letter-spacing: .12em; font-size: .78rem; text-transform: uppercase; }
+.page-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2rem; }
+h1 { font-weight: 400; margin-bottom: .35rem; }
+.lead { margin: 0; }
+.btn-wine { color: var(--mist); background: var(--wine); border-color: var(--wine); }
+.btn-wine:hover, .btn-wine:focus { color: #fff; background: #4d1b27; border-color: #4d1b27; }
+.btn-outline-wine { color: var(--wine); border-color: var(--wine); }
+.btn-outline-wine:hover { color: #fff; background: var(--wine); }
+.filter-panel, .results-panel { border: 1px solid var(--bronze); background: rgba(255,255,255,.78); box-shadow: 0 1rem 3rem rgba(32,35,31,.08); }
+.filter-panel { padding: 1.25rem; margin-bottom: 1.5rem; }
+.results-panel { padding: 1rem; min-height: 12rem; }
+.form-control:focus, .form-select:focus { border-color: var(--bronze); box-shadow: 0 0 0 .25rem rgba(152,117,76,.2); }
+.table { margin-bottom: 0; }
+.table thead th { color: var(--wine); border-bottom-color: var(--bronze); white-space: nowrap; }
+.table td { min-width: 6rem; }
+.actions-cell { min-width: 19rem; }
+.actions-cell .btn { margin: 0 .3rem .3rem 0; }
+.status-badge { display: inline-block; padding: .25rem .55rem; border: 1px solid; font-size: .85rem; white-space: nowrap; }
+.status-badge.draft { color: #5b4b23; border-color: #b99b4f; background: #fbf5df; }
+.status-badge.sent { color: #24516b; border-color: #76a2b8; background: #edf7fb; }
+.status-badge.accepted { color: #24553b; border-color: #6a9877; background: #edf6ee; }
+.status-badge.rejected, .status-badge.expired, .status-badge.cancelled { color: #6b2635; border-color: #b7808a; background: #faedef; }
+.state-message { display: flex; align-items: center; justify-content: center; gap: .6rem; min-height: 10rem; text-align: center; }
+.pagination-wrap { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+.pagination { margin: 0; }
+.page-link { color: var(--wine); }
+.page-item.active .page-link { background: var(--wine); border-color: var(--wine); }
+.modal-content { border: 1px solid var(--bronze); border-radius: 0; }
+.modal-header { background: var(--ink); color: var(--mist); border-bottom-color: var(--bronze); }
+.modal-header .btn-close { filter: invert(1); }
+.modal-title { font-size: 1.25rem; font-weight: 400; }
+.modal-footer { border-top-color: #d8cbb8; }
+.line-editor { border: 1px solid #d8cbb8; margin-bottom: 1rem; }
+.table-responsive { overflow-x: auto; }
+.line-editor .table { min-width: 42rem; }
+.totals-preview { display: grid; grid-template-columns: 1fr auto; gap: .35rem 1.5rem; max-width: 24rem; margin-left: auto; padding: 1rem; border-top: 2px solid var(--bronze); color: var(--ink); }
+.totals-preview dt, .totals-preview dd { margin: 0; }
+.totals-preview dd { text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 576px) { .page-heading { align-items: stretch; flex-direction: column; } .page-heading .btn { align-self: flex-start; } .quotes-nav .nav-link { padding-left: 0; padding-right: 0; } .results-panel { padding: .5rem; } .pagination-wrap { align-items: stretch; flex-direction: column; } .pagination { justify-content: center; } .actions-cell { min-width: 11rem; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

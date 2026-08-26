@@ -58,12 +58,33 @@ class DashboardNavigationTest {
     }
 
     @Test
+    void quoteManagementHasAvailableRoute() throws IOException {
+        String js = readResource("static/js/capability-registry.js");
+        assertTrue(js.contains("id: 'quotes', labelKey: 'capability.quotes', route: '/quotes', available: true"), "Quotes capability should be available");
+    }
+
+    @Test
     void dashboardHasAccessibleNavbarToggler() throws IOException {
         String html = readResource("templates/dashboard.html");
         assertTrue(html.contains("navbar-toggler"), "Missing navbar toggler");
+        assertTrue(html.contains("dashboard-menu-toggle"), "Missing Dashboard toggler style hook");
         assertTrue(html.contains("aria-label"), "Missing aria-label on toggler");
         assertTrue(html.contains("aria-controls"), "Missing aria-controls on toggler");
         assertTrue(html.contains("aria-expanded"), "Missing aria-expanded on toggler");
+        assertTrue(html.contains("data-bs-toggle=\"collapse\""), "Toggler must retain Bootstrap collapse behavior");
+        assertTrue(html.contains("data-bs-target=\"#main-navigation\""), "Toggler must retain its navigation target");
+    }
+
+    @Test
+    void dashboardTogglerHasExplicitHighContrastAndResponsiveStyles() throws IOException {
+        String css = readResource("static/css/dashboard.css");
+        assertTrue(css.contains(".dashboard-nav .dashboard-menu-toggle"), "Missing Dashboard toggler styles");
+        assertTrue(css.contains("border: 2px solid #fffdf8"), "Toggler needs a high-contrast boundary");
+        assertTrue(css.contains(".dashboard-menu-toggle::before"), "Toggler needs a local CSS icon");
+        assertTrue(css.contains("[aria-expanded=\"true\"]"), "Expanded toggler state must be explicit");
+        assertTrue(css.contains(".dashboard-menu-toggle:focus-visible"), "Toggler needs visible keyboard focus");
+        assertTrue(css.contains("@media (max-width: 991.98px)"), "Missing mobile navigation layout rules");
+        assertTrue(css.contains("overflow-wrap: anywhere"), "Mobile navigation labels must be able to wrap");
     }
 
     @Test
@@ -95,7 +116,6 @@ class DashboardNavigationTest {
     @Test
     void dashboardDoesNotLinkToUndefinedRoutes() throws IOException {
         String html = readResource("templates/dashboard.html");
-        assertFalse(html.contains("href=\"/quotes\""), "Quotes should not have a direct link");
         assertFalse(html.contains("href=\"/invoices\""), "Invoices should not have a direct link");
         assertFalse(html.contains("href=\"/payments\""), "Payments should not have a direct link");
         assertFalse(html.contains("href=\"/banking\""), "Banking should not have a direct link");

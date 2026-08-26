@@ -5,6 +5,11 @@ body { margin: 0; min-height: 100vh; color: var(--ink); background: radial-gradi
 .dashboard-shell { min-height: 100vh; }
 .dashboard-nav { background: var(--ink); border-bottom: 3px solid var(--bronze); }
 .dashboard-nav .navbar-brand, .dashboard-nav .nav-link { color: #fffdf8; }
+.dashboard-nav .dashboard-menu-toggle { flex-shrink: 0; min-width: 2.75rem; min-height: 2.5rem; padding: .45rem .55rem; border: 2px solid #fffdf8; border-radius: .25rem; color: #fffdf8; }
+.dashboard-nav .dashboard-menu-toggle::before { content: ""; display: block; width: 1.5rem; height: 1.25rem; background: linear-gradient(currentColor, currentColor) 0 0 / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) 0 50% / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) 0 100% / 100% 2px no-repeat; }
+.dashboard-nav .dashboard-menu-toggle:hover, .dashboard-nav .dashboard-menu-toggle[aria-expanded="true"] { color: var(--ink); background: #fffdf8; border-color: #fffdf8; }
+.dashboard-nav .dashboard-menu-toggle:focus-visible { color: #fffdf8; border-color: #fffdf8; outline: 3px solid #d7ad54; outline-offset: 3px; box-shadow: 0 0 0 2px var(--ink); }
+.dashboard-nav .dashboard-menu-toggle:disabled { color: #fffdf8; border-color: #fffdf8; opacity: .75; }
 .dashboard-nav .nav-link:hover { color: var(--bronze); }
 .dashboard-nav .nav-link:focus-visible { outline: 3px solid #d7ad54; outline-offset: 3px; }
 .dashboard-nav .nav-link.disabled { color: #bcb5a9; cursor: not-allowed; }
@@ -23,5 +28,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid #d7ad54; outline-offs
 .alert-warning { border-color: var(--bronze); }
 .btn-link { color: var(--wine); }
 .btn-link:hover { color: var(--ink); }
+@media (max-width: 991.98px) { .dashboard-nav .navbar-collapse { min-width: 0; padding-top: .75rem; } .dashboard-nav .navbar-nav { min-width: 0; } .dashboard-nav .nav-link { overflow-wrap: anywhere; } .dashboard-nav .navbar-collapse > .btn { align-self: flex-start; margin-top: .5rem; } }
 @media (max-width: 480px) { .identity-panel { padding: 1.25rem; } .dashboard-nav .btn { margin-top: .5rem; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
