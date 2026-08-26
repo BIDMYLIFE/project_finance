@@ -4,6 +4,7 @@ import com.example.erp.dto.*; import com.example.erp.entity.PaymentStatus; impor
  @GetMapping public PageResponse<PaymentResponse> list(@RequestParam(required=false)String keyword,@RequestParam(required=false)PaymentStatus status,@Valid PageQuery q){return payments.list(keyword,status,q);}
  @GetMapping("/{id}") public PaymentResponse detail(@PathVariable UUID id){return payments.detail(id);}
  @PostMapping public ResponseEntity<PaymentResponse> create(@Valid @RequestBody PaymentRequest r){return ResponseEntity.status(HttpStatus.CREATED).body(payments.create(r));}
+ @PostMapping("/from-invoices") public ResponseEntity<PaymentFromInvoicesResponse> createFromInvoices(@Valid @RequestBody PaymentFromInvoicesRequest r){return ResponseEntity.status(HttpStatus.CREATED).body(payments.createFromInvoices(r));}
  @PostMapping("/{id}/post") public PaymentResponse post(@PathVariable UUID id,@RequestParam UUID bankAccountId){return payments.post(id,bankAccountId);}
  @PostMapping("/{id}/void") public PaymentResponse voidPayment(@PathVariable UUID id){return payments.voidPayment(id);}
  @PostMapping("/{id}/allocations") public java.util.List<PaymentAllocationResponse> allocate(@PathVariable UUID id,@Valid @RequestBody java.util.List<PaymentAllocationRequest> r){return payments.allocate(id,r);}

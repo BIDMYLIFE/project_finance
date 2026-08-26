@@ -6,6 +6,7 @@ import com.example.erp.exception.*;
 import com.example.erp.repository.*;
 import com.example.erp.security.OrganizationContext;
 import java.time.*;
+import java.math.BigDecimal;
 import java.util.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,46 @@ public class PaymentService {
         Payment payment=new Payment(UUID.randomUUID(),org,category.getId(),account==null?null:account.getId(),context.requiredActorId(),nextReceipt(org,request.receivedAt().getYear()),request.payerName().trim(),request.reason().trim(),request.note(),request.amount(),currency,request.paymentMethod(),request.receivedAt(),status,Instant.now()); payment.assignCustomer(request.customerId()); payments.save(payment);
         if(account!=null) transactions.save(new BankTransaction(UUID.randomUUID(),org,account.getId(),BankTransactionDirection.CREDIT,request.amount(),currency,request.receivedAt(),"PAYMENT",payment.getId(),null,BankTransactionStatus.POSTED,Instant.now()));
         return PaymentResponse.from(payment);
+    }
+    @Transactional
+    public PaymentFromInvoicesResponse createFromInvoices(PaymentFromInvoicesRequest request) {
+        UUID org = context.requiredOrganizationId();
+        List<UUID> ids = request.invoiceIds().stream().distinct().sorted().toList();
+        if (ids.isEmpty()) throw new BusinessRuleException("At least one invoice is required");
+        PaymentCategory category = categories.findByIdAndOrganizationId(request.categoryId(), org).orElseThrow(ResourceNotFoundException::new);
+        if (!category.isActive()) throw new BusinessRuleException("Payment category is inactive");
+        List<Invoice> locked = ids.stream().map(id -> invoices.findWithLockByIdAndOrganizationId(id, org).orElseThrow(ResourceNotFoundException::new)).toList();
+        Invoice first = locked.get(0);
+        String currency = first.getCurrencyCode();
+        UUID customerId = first.getCustomerId();
+        BigDecimal available = BigDecimal.ZERO;
+        for (Invoice invoice : locked) {
+            if (!(invoice.getStatus() == InvoiceStatus.ISSUED || invoice.getStatus() == InvoiceStatus.PARTIALLY_PAID) || invoice.getBalanceDue().signum() <= 0) throw new BusinessRuleException("Invoice is not open for payment");
+            if (!customerId.equals(invoice.getCustomerId())) throw new BusinessRuleException("Invoices must belong to the same customer");
+            if (!currency.equals(invoice.getCurrencyCode())) throw new BusinessRuleException("Invoices must use the same currency");
+            available = available.add(invoice.getBalanceDue());
+        }
+        if (request.amount().compareTo(available) > 0) throw new BusinessRuleException("Payment amount exceeds invoice balance");
+        BankAccount account = accounts.findByIdAndOrganizationId(request.bankAccountId(), org).orElseThrow(ResourceNotFoundException::new);
+        if (!account.isActive() || !currency.equals(account.getCurrencyCode())) throw new BusinessRuleException("Bank account is inactive or currency does not match");
+        Customer customer = customers.findByIdAndOrganizationId(customerId, org).orElseThrow(ResourceNotFoundException::new);
+        String reason = request.reason() == null || request.reason().isBlank() ? "Invoice payment" : request.reason().trim();
+        Payment payment = new Payment(UUID.randomUUID(), org, category.getId(), account.getId(), context.requiredActorId(), nextReceipt(org, request.receivedAt().getYear()), customer.getName(), reason, request.note(), request.amount(), currency, request.paymentMethod(), request.receivedAt(), PaymentStatus.POSTED, Instant.now());
+        payment.assignCustomer(customer.getId());
+        payments.save(payment);
+        BigDecimal remaining = request.amount();
+        List<PaymentAllocationResponse> allocations = new ArrayList<>();
+        for (Invoice invoice : locked.stream().sorted(Comparator.comparing(Invoice::getInvoiceDate).thenComparing(Invoice::getId)).toList()) {
+            if (remaining.signum() == 0) break;
+            BigDecimal amount = remaining.min(invoice.getBalanceDue());
+            PaymentAllocation allocation = paymentAllocations.save(new PaymentAllocation(UUID.randomUUID(), org, payment.getId(), invoice.getId(), amount));
+            invoice.applyPayment(amount);
+            allocations.add(PaymentAllocationResponse.from(allocation));
+            remaining = remaining.subtract(amount);
+        }
+        if (remaining.signum() != 0) throw new BusinessRuleException("Payment amount could not be allocated");
+        transactions.save(new BankTransaction(UUID.randomUUID(), org, account.getId(), BankTransactionDirection.CREDIT, request.amount(), currency, request.receivedAt(), "PAYMENT", payment.getId(), null, BankTransactionStatus.POSTED, Instant.now()));
+        return new PaymentFromInvoicesResponse(PaymentResponse.from(payment), allocations);
     }
     @Transactional public PaymentResponse voidPayment(UUID id){ Payment payment=find(id); if(payment.getStatus()==PaymentStatus.VOIDED) throw new BusinessRuleException("Payment is already voided"); payment.voidPayment(); return PaymentResponse.from(payment); }
     @Transactional public PaymentResponse print(UUID id){ Payment payment=find(id); if(payment.getStatus()==PaymentStatus.VOIDED) throw new BusinessRuleException("Voided payment cannot be printed"); prints.save(new ReceiptPrint(UUID.randomUUID(),context.requiredOrganizationId(),id,Instant.now(),context.requiredActorId())); return PaymentResponse.from(payment); }
