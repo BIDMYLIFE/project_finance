@@ -32,7 +32,7 @@ server:
 security:
   jwt:
     secret: ${JWT_SECRET}
-    access-ttl: ${JWT_ACCESS_TTL:PT15M}
+    access-ttl: ${JWT_ACCESS_TTL:PT8H}
     refresh-ttl: ${JWT_REFRESH_TTL:P30D}
   cookie:
     access-name: ${AUTH_ACCESS_COOKIE:erp_access}

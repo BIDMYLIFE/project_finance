@@ -39,7 +39,7 @@ class SecurityUnitTest {
         assertThat(claims.get("org", String.class)).isEqualTo(organizationId.toString());
         assertThat(claims.get("role", String.class)).isEqualTo("ADMIN");
         assertThat(claims.get("sid", String.class)).isEqualTo(sessionId.toString());
-        assertThat(claims.getExpiration().toInstant()).isEqualTo(now.plus(Duration.ofMinutes(15)));
+        assertThat(claims.getExpiration().toInstant()).isEqualTo(now.plus(Duration.ofHours(8)));
     }
 
     @Test
@@ -48,6 +48,16 @@ class SecurityUnitTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         new AuthenticationCookie(properties).set(response, "access-test", "refresh-test");
         assertThat(response.getHeaders("Set-Cookie")).allMatch(value -> value.contains("HttpOnly") && value.contains("Secure") && value.contains("SameSite=Strict"));
+        assertThat(response.getHeaders("Set-Cookie")).anyMatch(value -> value.contains("Max-Age=28800"));
+        assertThat(response.getHeaders("Set-Cookie")).anyMatch(value -> value.contains("Max-Age=2592000"));
+    }
+
+    @Test
+    void accessTtlCanBeOverriddenWithoutChangingRefreshTtl() {
+        SecurityProperties properties = properties();
+        properties.getJwt().setAccessTtl(Duration.ofMinutes(5));
+        assertThat(properties.getJwt().getAccessTtl()).isEqualTo(Duration.ofMinutes(5));
+        assertThat(properties.getJwt().getRefreshTtl()).isEqualTo(Duration.ofDays(30));
     }
 
     @Test
