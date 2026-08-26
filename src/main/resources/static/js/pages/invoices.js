@@ -28,6 +28,7 @@
       openCreate: function () { this.editing = false; this.form = this.emptyForm(); this.clearErrors(); this.showModal(); },
       openEdit: function (invoice) { if (invoice.status !== 'DRAFT') return; var self = this; window.invoicesApi.detail(invoice.id).then(function (response) { var value = response.data; self.editing = true; self.form = { id: value.id, customerId: value.customerId, currencyCode: value.currencyCode, invoiceDate: value.invoiceDate, dueDate: value.dueDate, lines: (value.lines || []).map(function (line) { return { productId: line.productId, quantity: line.quantity, discount: line.discount }; }) }; self.clearErrors(); self.showModal(); }); },
       openDetail: function (invoice) { var self = this; window.invoicesApi.detail(invoice.id).then(function (response) { self.selectedInvoice = response.data; bootstrap.Modal.getOrCreateInstance(document.getElementById('invoice-detail-modal')).show(); }); },
+      printReceipt: function (invoice) { if (invoice.status !== 'ISSUED' || this.busy) return; window.open('/invoices/receipt/' + encodeURIComponent(invoice.id), '_blank', 'noopener'); },
       showModal: function () { bootstrap.Modal.getOrCreateInstance(document.getElementById('invoice-modal')).show(); },
       clearErrors: function () { this.formError = ''; this.fieldErrors = {}; },
       fieldClass: function (field) { return this.fieldErrors[field] ? 'is-invalid' : ''; },

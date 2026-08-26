@@ -62,6 +62,14 @@ public class InvoiceService {
     @Transactional(readOnly = true)
     public InvoiceResponse detail(UUID id) { Invoice invoice = find(id, context.requiredOrganizationId()); Customer c = customers.findByIdAndOrganizationId(invoice.getCustomerId(), invoice.getOrganizationId()).orElse(null); return response(invoice, c); }
 
+    @Transactional(readOnly = true)
+    public InvoiceResponse receipt(UUID id) {
+        Invoice invoice = find(id, context.requiredOrganizationId());
+        if (invoice.getStatus() != InvoiceStatus.ISSUED) throw new BusinessRuleException("Only issued invoices can be printed");
+        Customer c = customers.findByIdAndOrganizationId(invoice.getCustomerId(), invoice.getOrganizationId()).orElse(null);
+        return response(invoice, c);
+    }
+
     @Transactional
     public InvoiceResponse issue(UUID id) {
         UUID org = context.requiredOrganizationId(); Invoice invoice = find(id, org);
