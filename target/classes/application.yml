@@ -18,6 +18,9 @@ spring:
     default-schema: ${DB_SCHEMA:SOUTHWND}
     schemas: ${DB_SCHEMA:SOUTHWND}
     create-schemas: true
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
   thymeleaf:
     cache: false
 

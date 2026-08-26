@@ -27,7 +27,10 @@ public class SecurityConfig {
     @Bean SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter filter) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable).formLogin(AbstractHttpConfigurer::disable).httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**", "/auth/**", "/css/**", "/js/**", "/vendor/**", "/webjars/**", "/favicon.ico").permitAll().anyRequest().authenticated())
-                .exceptionHandling(errors -> errors.authenticationEntryPoint((request, response, exception) -> writeError(response, 401, "UNAUTHENTICATED", "Authentication is required"))
+                .exceptionHandling(errors -> errors.authenticationEntryPoint((request, response, exception) -> {
+                    if ("/".equals(request.getRequestURI())) response.sendRedirect("/auth/login");
+                    else writeError(response, 401, "UNAUTHENTICATED", "Authentication is required");
+                })
                         .accessDeniedHandler((request, response, exception) -> writeError(response, 403, "FORBIDDEN", "Access is forbidden")))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class).build();
     }

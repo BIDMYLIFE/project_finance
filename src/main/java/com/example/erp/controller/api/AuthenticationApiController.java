@@ -2,6 +2,7 @@ package com.example.erp.controller.api;
 
 import com.example.erp.dto.AuthResponse;
 import com.example.erp.dto.BootstrapRequest;
+import com.example.erp.dto.CurrentIdentityResponse;
 import com.example.erp.dto.LoginRequest;
 import com.example.erp.entity.User;
 import com.example.erp.security.AuthenticationCookie;
@@ -40,6 +41,10 @@ public class AuthenticationApiController {
         AuthService.LoginResult result = authService.login(request.email(), request.password());
         cookies.set(response, result.accessToken(), result.refreshToken());
         return AuthResponse.success(result.principal().userId(), result.principal().organizationId());
+    }
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public CurrentIdentityResponse currentIdentity(@AuthenticationPrincipal AuthPrincipal principal) {
+        return CurrentIdentityResponse.from(principal);
     }
     @PostMapping("/refresh")
     public AuthResponse refresh(HttpServletRequest request, HttpServletResponse response) {
