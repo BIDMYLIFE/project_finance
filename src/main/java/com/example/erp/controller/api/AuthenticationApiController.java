@@ -9,6 +9,7 @@ import com.example.erp.security.AuthenticationCookie;
 import com.example.erp.security.AuthPrincipal;
 import com.example.erp.service.AuthService;
 import com.example.erp.service.BootstrapService;
+import com.example.erp.service.IdentityService;
 import com.example.erp.config.SecurityProperties;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.erp.repository.OrganizationRepository;
-import com.example.erp.repository.UserRoleRepository;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -30,12 +29,11 @@ public class AuthenticationApiController {
     private final AuthService authService;
     private final AuthenticationCookie cookies;
     private final SecurityProperties properties;
-    private final OrganizationRepository organizations;
-    private final UserRoleRepository userRoleRepository;
+    private final IdentityService identityService;
     public AuthenticationApiController(BootstrapService bootstrapService, AuthService authService, AuthenticationCookie cookies, SecurityProperties properties,
-                                        OrganizationRepository organizations, UserRoleRepository userRoleRepository) {
+                                        IdentityService identityService) {
         this.bootstrapService = bootstrapService; this.authService = authService; this.cookies = cookies; this.properties = properties;
-        this.organizations = organizations; this.userRoleRepository = userRoleRepository;
+        this.identityService = identityService;
     }
     @PostMapping("/bootstrap")
     public ResponseEntity<AuthResponse> bootstrap(@Valid @RequestBody BootstrapRequest request) {
@@ -50,20 +48,7 @@ public class AuthenticationApiController {
     }
     @org.springframework.web.bind.annotation.GetMapping("/me")
     public CurrentIdentityResponse currentIdentity(@AuthenticationPrincipal AuthPrincipal principal) {
-        var response = CurrentIdentityResponse.from(principal);
-        if (principal.organizationId() != null) {
-            var organization = organizations.findById(principal.organizationId()).orElse(null);
-            if (organization != null) response = new CurrentIdentityResponse(
-                response.userId(), response.email(), response.organizationId(), organization.getName(), response.roleName()
-            );
-        }
-        if (principal.userId() != null) {
-            var roles = userRoleRepository.findByUserId(principal.userId());
-            if (!roles.isEmpty()) response = new CurrentIdentityResponse(
-                response.userId(), response.email(), response.organizationId(), response.organizationName(), roles.get(0).getRoleName()
-            );
-        }
-        return response;
+        return identityService.currentIdentity(principal);
     }
     @PostMapping("/refresh")
     public AuthResponse refresh(HttpServletRequest request, HttpServletResponse response) {
