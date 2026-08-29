@@ -94,6 +94,23 @@ class I18nVerificationTest {
     }
 
     @Test
+    void expenseMessagesUseTraditionalChineseForZhTw() throws IOException {
+        Properties zhTwProps = loadProperties("i18n/messages_zh_TW.properties");
+        assertEquals("費用管理", zhTwProps.getProperty("expenses.heading"));
+        assertEquals("新增費用", zhTwProps.getProperty("expenses.action.add"));
+        assertEquals("儲存草稿", zhTwProps.getProperty("expenses.form.save"));
+        assertEquals("費用已確認並完成出帳。", zhTwProps.getProperty("expenses.success.confirmed"));
+        assertEquals("費用狀態更新失敗。", zhTwProps.getProperty("expenses.error.lifecycle"));
+        String expenseText = zhTwProps.stringPropertyNames().stream()
+                .filter(key -> key.startsWith("expenses."))
+                .map(zhTwProps::getProperty)
+                .reduce("", (all, value) -> all + " " + value);
+        assertFalse(expenseText.contains("Expenses") || expenseText.contains("Add expense")
+                || expenseText.contains("Financial ERP") || expenseText.contains("Save draft")
+                || expenseText.contains("Unable to"), "zh-TW Expense messages still contain English text");
+    }
+
+    @Test
     void allVueTemplatesHaveEmbeddedMessagesJson() throws IOException {
         for (String path : TEMPLATE_PATHS) {
             String content = readResource(path);

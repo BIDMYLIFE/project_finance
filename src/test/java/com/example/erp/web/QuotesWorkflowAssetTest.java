@@ -30,7 +30,16 @@ class QuotesWorkflowAssetTest {
         assertTrue(page.contains("Swal.fire") && page.contains("result.isConfirmed") && page.contains("quotes.error.lifecycle"));
         assertTrue(template.contains("quotes.loading") && template.contains("quotes.empty") && template.contains("form.lines"));
         assertTrue(template.contains("previewTotals.subtotal") && template.contains("previewTotals.taxTotal") && template.contains("previewTotals.grandTotal"));
+        int vueRoot = template.indexOf("<main id=\"quotes-app\"");
+        int totals = template.indexOf("class=\"totals-preview");
+        assertTrue(vueRoot >= 0 && totals > vueRoot && totals < template.indexOf("</main>") && count(template, "class=\"totals-preview") == 1);
         assertFalse(page.contains("error.response.data.message"));
+    }
+
+    private int count(String value, String token) {
+        int count = 0;
+        for (int offset = 0; (offset = value.indexOf(token, offset)) >= 0; offset += token.length()) count++;
+        return count;
     }
 
     private String read(String path) throws IOException {

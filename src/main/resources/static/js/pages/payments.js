@@ -1,6 +1,6 @@
 (function (window) {
   var app = Vue.createApp({
-    data: function () { return { payments: [], categories: [], accounts: [], invoices: [], selectedInvoiceIds: [], query: { keyword: '', status: '' }, page: 0, totalPages: 0, loading: false, saving: false, loadError: '', formError: '', showForm: false, showInvoiceForm: false, form: { categoryId: '', bankAccountId: '', payerName: '', reason: '', note: '', amount: '', currencyCode: 'TWD', paymentMethod: 'BANK_TRANSFER', receivedAt: new Date().toISOString().slice(0, 10) }, invoiceForm: { categoryId: '', bankAccountId: '', amount: '', currencyCode: 'TWD', paymentMethod: 'BANK_TRANSFER', receivedAt: new Date().toISOString().slice(0, 10), reason: 'Invoice payment', note: '' } }; },
+    data: function () { return { payments: [], categories: [], accounts: [], invoices: [], selectedInvoiceIds: [], query: { keyword: '', status: '' }, page: 0, totalPages: 0, loading: false, saving: false, loadError: '', formError: '', showForm: false, showInvoiceForm: false, form: { categoryId: '', bankAccountId: '', payerName: '', reason: '', note: '', amount: '', currencyCode: 'TWD', paymentMethod: 'BANK_TRANSFER', receivedAt: new Date().toISOString().slice(0, 10) }, invoiceForm: { categoryId: '', bankAccountId: '', amount: '', currencyCode: 'TWD', paymentMethod: 'BANK_TRANSFER', receivedAt: new Date().toISOString().slice(0, 10), reason: 'Invoice payment', note: '' }, loggingOut: false }; },
     computed: {
       busy: function () { return this.loading || this.saving; },
       compatibleAccounts: function () { var currency = this.showInvoiceForm ? this.invoiceForm.currencyCode : this.form.currencyCode; return this.accounts.filter(function (account) { return account.currencyCode === currency; }); },
@@ -14,6 +14,7 @@
     mounted: function () { this.loadOptions(); this.loadPayments(); },
     methods: {
       MSG: function (key) { return window.MSG(key); },
+      logout: function () { var self = this; self.loggingOut = true; window.erpApi.logout().finally(function () { window.location.assign('/auth/login'); }); },
       accountName: function (id) { var account = this.accounts.find(function (item) { return item.id === id; }); return account ? account.accountName : (id ? id : '—'); },
       canSelectInvoice: function (invoice) { var first = this.selectedInvoices[0]; return !first || (first.customerId === invoice.customerId && first.currencyCode === invoice.currencyCode); },
       loadOptions: function () { var self = this; return Promise.all([window.paymentsApi.categories(), window.bankingApi.list({ keyword: '', active: 'true' }, 0)]).then(function (responses) { self.categories = (responses[0].data.items || []).filter(function (category) { return category.active; }); self.accounts = responses[1].data.items || []; }); },

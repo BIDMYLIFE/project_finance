@@ -16,6 +16,20 @@ class PaymentsWorkflowAssetTest {
         assertTrue(script.contains("inputValidator"));
     }
 
+    @Test
+    void paymentsPageUsesSharedResponsiveNavigation() throws IOException {
+        String html = read("templates/payments/list.html");
+        String script = read("static/js/pages/payments.js");
+        String css = read("static/css/payments.css");
+        assertTrue(html.contains("payments-nav"));
+        assertTrue(html.contains("payments.nav.dashboard") && html.contains("@click=\"logout\"")
+                && html.contains(":disabled=\"loggingOut\""));
+        assertFalse(html.contains("payments-header"));
+        assertTrue(script.contains("loggingOut") && script.contains("erpApi.logout")
+                && script.contains("/auth/login"));
+        assertTrue(css.contains("payments-nav"));
+    }
+
     private String read(String path) throws IOException {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(path)) {
             assertNotNull(input, "Missing resource: " + path);
