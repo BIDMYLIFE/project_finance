@@ -28,6 +28,8 @@ public class ApiExceptionHandler {
     ResponseEntity<ErrorResponse> notFound() { return response(HttpStatus.NOT_FOUND, "NOT_FOUND", "Resource not found", Map.of()); }
     @ExceptionHandler(BusinessRuleException.class)
     ResponseEntity<ErrorResponse> business() { return response(HttpStatus.CONFLICT, "BUSINESS_RULE", "The requested operation is not allowed", Map.of()); }
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<ErrorResponse> invalidRequest() { return response(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", "The request parameters are invalid", Map.of()); }
     @ExceptionHandler(Exception.class)
     ResponseEntity<ErrorResponse> internal() { return response(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "The request could not be completed", Map.of()); }
     private ResponseEntity<ErrorResponse> response(HttpStatus status, String code, String message, Map<String, String> fields) {

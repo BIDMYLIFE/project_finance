@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
+    java.util.List<Expense> findByOrganizationId(UUID organizationId);
     Optional<Expense> findByIdAndOrganizationId(UUID id, UUID organizationId);
     Optional<Expense> findByIdAndOrganizationIdAndStatus(UUID id, UUID organizationId, ExpenseStatus status);
     @Query("select e from Expense e where e.organizationId = :organizationId and (:status is null or e.status = :status) and (:categoryId is null or e.categoryId = :categoryId) and (:bankAccountId is null or e.bankAccountId = :bankAccountId) and (:keyword is null or :keyword = '' or lower(e.payeeName) like lower(concat('%', :keyword, '%')) or lower(e.description) like lower(concat('%', :keyword, '%'))) and (:fromDate is null or e.expenseDate >= :fromDate) and (:toDate is null or e.expenseDate <= :toDate)")

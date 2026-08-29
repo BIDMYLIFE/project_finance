@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ExpenseCategoryRepository extends JpaRepository<ExpenseCategory, UUID> {
+    java.util.List<ExpenseCategory> findByOrganizationId(UUID organizationId);
     Optional<ExpenseCategory> findByIdAndOrganizationId(UUID id, UUID organizationId);
     Page<ExpenseCategory> findByOrganizationIdAndActiveAndNameContainingIgnoreCase(
             UUID organizationId, boolean active, String name, Pageable pageable);

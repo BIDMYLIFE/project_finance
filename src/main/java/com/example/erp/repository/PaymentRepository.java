@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PaymentRepository extends JpaRepository<Payment, UUID> {
+    java.util.List<Payment> findByOrganizationId(UUID organizationId);
     Optional<Payment> findByIdAndOrganizationId(UUID id, UUID organizationId);
     Optional<Payment> findByIdAndOrganizationIdAndStatus(UUID id, UUID organizationId, PaymentStatus status);
     Page<Payment> findByOrganizationIdAndStatus(UUID organizationId, PaymentStatus status, Pageable pageable);

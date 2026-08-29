@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PaymentCategoryRepository extends JpaRepository<PaymentCategory, UUID> {
+    java.util.List<PaymentCategory> findByOrganizationId(UUID organizationId);
     Optional<PaymentCategory> findByIdAndOrganizationId(UUID id, UUID organizationId);
     Page<PaymentCategory> findByOrganizationIdAndActive(UUID organizationId, boolean active, Pageable pageable);
     Page<PaymentCategory> findByOrganizationId(UUID organizationId, Pageable pageable);

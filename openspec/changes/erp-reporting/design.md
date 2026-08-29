@@ -10,13 +10,13 @@
 
 - 建立一致的報表 query contract，涵蓋 filters、date basis、sorting、pagination、rows、summary 與 empty state。
 - 讓每種報表從來源資料即時計算有效結果，並保留明細到來源文件/交易的追溯關係。
-- 讓畫面查詢與 CSV 匯出共用相同的篩選、狀態排除、金額與日期基準規則。
+- 讓畫面查詢與 CSV、PDF、XLSX 匯出共用相同的篩選、狀態排除、金額與日期基準規則。
 - 在 query、API、匯出與前端呈現各層套用 organization isolation、ADMIN authorization、查詢上限與錯誤處理。
 
 **Non-Goals:**
 
 - 不保存獨立的報表總計作為財務事實，不建立或修改來源交易。
-- 不實作外部銀行同步、自動對帳、完整總帳、XLSX/PDF 匯出或費用交易生命週期。
+- 不實作外部銀行同步、自動對帳、完整總帳或費用交易生命週期；本 change 不提供財務交易寫入功能。
 - 不以報表模組取代來源領域的 payment、bank、invoice 或 expense business rules。
 
 ## Decisions
@@ -43,7 +43,11 @@
 
 報表 Web API 與 CSV service 都接收同一組已驗證的 query specification。畫面使用分頁 rows；CSV 使用相同 filters、sort、date basis 與有效狀態，輸出該查詢的受上限完整資料集與 summary，並在 metadata/header 保存查詢條件、產生時間與幣別。page/size 只控制畫面分頁，不讓匯出因目前頁面而遺漏其他符合條件的 rows。
 
-替代方案是前端把目前表格轉成 CSV，會遺失未載入頁面、summary 與 date basis，也可能造成畫面與下載不一致，因此由後端重用 query specification 產生 CSV。
+替代方案是前端把目前表格轉成檔案，會遺失未載入頁面、summary 與 date basis，也可能造成畫面與下載不一致，因此由後端重用 query specification 產生所有格式。
+
+CSV、PDF 與 XLSX 都由同一份 normalized query specification 產生。CSV 適合明細交換；PDF 固定報表標題、篩選摘要、總計與列印版面；XLSX 提供可分析的明細工作表與總計工作表。三種格式都必須保存 report type、date basis、applied filters、currency、summary 與 generation time。
+
+匯出格式由後端提供建置時依賴，並使用 bounded export limit、串流或分批寫出與暫存檔原子發布，避免大型檔案造成記憶體壓力或下載到半成品。格式產生失敗時只回傳一致錯誤，不留下可被誤認為成功的檔案。
 
 ### 5. 來源追溯使用 typed source reference
 
@@ -59,7 +63,18 @@ Web API Controller 負責 binding、Bean Validation、authorization 與 DTO resp
 
 對 organization、報表 date basis、status、customer、category、account、currency 與 source/reversal reference 建立合適索引；聚合使用 projection query，並限制日期範圍、page size 與 CSV 筆數。第一版不建立報表快照或 materialized table，避免來源交易更新後出現同步問題；若實際查詢量證明需要，再以不改變 API contract 的快取/彙總讀模型改善。
 
+### 8. Dashboard 使用摘要 API，不在前端拼接報表
+
+Dashboard 透過專用 summary API 取得核心期間摘要與各摘要對應的 report type/date basis，報表入口由 capability registry 切換為可用。摘要數值由報表查詢規則重算，點擊摘要時以安全的查詢參數導向報表頁；不讓前端將多個明細 API 自行相加。
+
+### 9. PDF/XLSX 以固定 schema 與本地化格式輸出
+
+PDF 與 XLSX 使用每種 report type 的固定欄位 schema，金額以 decimal precision 輸出、日期使用報表 timezone、文字標題走既有 message properties。XLSX 不執行公式作為財務事實，總計由後端寫入；PDF 必須在無外部網路時仍能產生，中文字型以專案允許的本地資源提供。
+
 ## Risks / Trade-offs
+
+- [Risk] PDF/XLSX 產生增加建置依賴、檔案大小與格式相容性問題 → [Mitigation] 鎖定後端依賴版本、以固定 schema 與 bounded export limit 測試，採暫存檔原子發布並驗證離線建置。
+- [Risk] Dashboard 摘要與報表明細出現不同口徑 → [Mitigation] 共用 normalized query specification，並加入摘要可由明細重算的整合測試。
 
 - [Risk] 多來源 join 與帳齡聚合在長期間查詢可能變慢 → [Mitigation] 強制日期/筆數上限、使用 projection、索引與查詢計畫檢查，避免逐筆 entity 載入。
 - [Risk] source modules 的狀態或金額契約尚未完成會阻塞報表 → [Mitigation] 將 authentication、sales document、payment-bank-posting 與 expense contracts 列為部署前置條件，以 fixture contract tests 先固定欄位與有效狀態。
@@ -72,10 +87,11 @@ Web API Controller 負責 binding、Bean Validation、authorization 與 DTO resp
 1. 先確認 `auth-jwt-admin-bootstrap`、財務主檔/銷售文件、`payment-bank-posting` 與費用資料契約已提供報表所需的 organization、狀態、金額、日期與 source reference。
 2. 建立共用 report DTO、filter validation、date-basis registry、effective-state predicate、pagination limit 與 organization scope，再建立各報表的 read projection/query。
 3. 依序實作待入帳/收款分類、銀行/發票/帳齡、費用/稅務/ERP 收支摘要，加入 source detail、summary 重算與 empty-state API。
-4. 以相同 query specification 實作 CSV metadata、明細與 summary 輸出，加入逾時、超限、查詢失敗時不產生部分檔案的處理。
-5. 建立本地前端資源與 Vue 報表頁，完成桌面/手機、鍵盤 focus、loading/error/empty/retry 與 CSV download 流程。
-6. 以兩個 organization 與假資料執行 migration/整合/API/瀏覽器測試，確認有效狀態、帳齡邊界、summary 可由 rows 重算、CSV 與畫面條件一致。
-7. 部署時先執行來源模組 migration，再部署報表 API/UI；若回滾，停止報表入口即可，不需刪除來源資料或報表交易，因本 change 不寫入財務來源。
+4. 以相同 query specification 實作 CSV、PDF、XLSX metadata、明細與 summary 輸出，加入逾時、超限、查詢失敗時不產生部分檔案的處理。
+5. 建立本地前端資源與 Vue 報表頁，完成桌面/手機、鍵盤 focus、loading/error/empty/retry 與多格式 download 流程。
+6. 將報表 capability 與核心摘要 API 整合至 Dashboard，提供入口、摘要卡片與安全導覽。
+7. 以兩個 organization 與假資料執行 migration/整合/API/瀏覽器測試，確認有效狀態、帳齡邊界、summary 可由 rows 重算、畫面與各格式匯出條件一致。
+8. 部署時先執行來源模組 migration，再部署報表 API/UI；若回滾，停止報表入口即可，不需刪除來源資料或報表交易，因本 change 不寫入財務來源。
 
 ## Open Questions
 

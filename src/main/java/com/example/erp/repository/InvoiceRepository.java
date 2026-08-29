@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
+    java.util.List<Invoice> findByOrganizationId(UUID organizationId);
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Invoice> findWithLockByIdAndOrganizationId(UUID id, UUID organizationId);
 

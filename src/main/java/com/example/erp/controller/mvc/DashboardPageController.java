@@ -34,6 +34,15 @@ public class DashboardPageController {
         put(messages, "dashboard.identity.user_id", locale);
         put(messages, "dashboard.identity.organization_id", locale);
         put(messages, "dashboard.identity.no_data", locale);
+        put(messages, "dashboard.reports.title", locale);
+        put(messages, "dashboard.reports.loading", locale);
+        put(messages, "dashboard.reports.error", locale);
+        put(messages, "dashboard.reports.retry", locale);
+        put(messages, "dashboard.reports.sales", locale);
+        put(messages, "dashboard.reports.payments", locale);
+        put(messages, "dashboard.reports.expenses", locale);
+        put(messages, "dashboard.reports.receivables", locale);
+        put(messages, "dashboard.reports.pending", locale);
         put(messages, "capability.dashboard", locale);
         put(messages, "capability.customers", locale);
         put(messages, "capability.products", locale);

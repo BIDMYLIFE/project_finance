@@ -103,6 +103,38 @@
 - **WHEN** 報表查詢或 CSV 產生過程失敗
 - **THEN** 系統回傳一致的錯誤，不提供內容不完整的成功檔案或下載連結
 
+### Requirement: Reports can be exported as PDF and XLSX
+
+系統 SHALL 支援報表 PDF 與 XLSX 匯出。匯出內容 MUST 使用與畫面及其他匯出格式相同的篩選條件、排序、日期基準、有效狀態與 summary；PDF MUST 適合列印閱讀，XLSX MUST 提供可分析的明細與總計。檔案 MUST 包含報表類型、套用條件、日期基準、幣別、產生時間與可辨識的欄位標題，且不得依賴執行時外部網路或服務。
+
+#### Scenario: Export a report as PDF
+- **WHEN** `ADMIN` 以有效條件要求 PDF 報表
+- **THEN** 系統下載可開啟的 PDF，包含報表標題、篩選摘要、明細、summary 與產生時間，且內容與相同條件的報表查詢一致
+
+#### Scenario: Export a report as XLSX
+- **WHEN** `ADMIN` 以有效條件要求 XLSX 報表
+- **THEN** 系統下載可開啟的 XLSX，包含明細與總計資料，且數值、幣別、日期與來源識別與報表查詢一致
+
+#### Scenario: Reject an oversized or failed document export
+- **WHEN** PDF 或 XLSX 超過匯出筆數/大小上限，或檔案產生過程失敗
+- **THEN** 系統回傳一致的錯誤，不發布不完整或看似成功的檔案
+
+### Requirement: Dashboard integrates report entry points and financial summaries
+
+Dashboard SHALL 顯示可用的報表入口與核心期間摘要，至少包含銷售、已收款、費用、淨現金流、未收帳款及待入帳收款。摘要 MUST 使用報表相同的 organization scope、日期基準、有效狀態與幣別口徑；使用者從入口或摘要操作時 SHALL 能導向對應報表及安全的篩選條件。
+
+#### Scenario: Open reporting from Dashboard
+- **WHEN** 已驗證的 `ADMIN` 開啟 Dashboard
+- **THEN** Dashboard 顯示可操作的報表入口，並能導向報表頁而不是顯示未完成或 disabled 狀態
+
+#### Scenario: View consistent Dashboard summary
+- **WHEN** `ADMIN` 在指定期間查看 Dashboard 摘要
+- **THEN** 摘要數值與相同 organization、期間、幣別及有效狀態下的報表 summary 一致
+
+#### Scenario: Navigate from a summary card
+- **WHEN** `ADMIN` 點擊某一摘要卡片
+- **THEN** 系統導向對應報表並帶入受驗證的 report type、date basis 與期間條件，不接受任意 organization id
+
 ### Requirement: Report pages are usable offline and responsively
 
 報表頁面 SHALL 透過專案提供的本地資源運作，不得依賴 CDN 或外部 runtime 資源；桌面與手機畫面 MUST 支援鍵盤操作、明確 focus、loading、成功、驗證錯誤、網路錯誤、空資料、disabled 與重試狀態。報表表格與篩選控制不得在支援的 viewport 互相遮蔽或造成不可讀內容。

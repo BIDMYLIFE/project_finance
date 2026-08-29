@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BankAccountRepository extends JpaRepository<BankAccount, UUID> {
+    java.util.List<BankAccount> findByOrganizationId(UUID organizationId);
     Optional<BankAccount> findByIdAndOrganizationId(UUID id, UUID organizationId);
     Page<BankAccount> findByOrganizationIdAndActiveAndAccountNameContainingIgnoreCase(UUID organizationId, boolean active, String accountName, Pageable pageable);
     boolean existsByOrganizationIdAndAccountNameIgnoreCase(UUID organizationId, String accountName);

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface BankTransactionRepository extends JpaRepository<BankTransaction, UUID> {
+    java.util.List<BankTransaction> findByOrganizationId(UUID organizationId);
     java.util.Optional<BankTransaction> findByIdAndOrganizationId(UUID id, UUID organizationId);
     java.util.List<BankTransaction> findByOrganizationIdAndBankAccountIdAndStatus(UUID organizationId, UUID bankAccountId, BankTransactionStatus status);
     boolean existsByOrganizationIdAndSourceTypeAndSourceIdAndStatus(UUID organizationId, String sourceType, UUID sourceId, BankTransactionStatus status);

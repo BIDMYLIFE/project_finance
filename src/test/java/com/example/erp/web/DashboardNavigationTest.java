@@ -27,7 +27,7 @@ class DashboardNavigationTest {
     void capabilityRegistryHasAvailableFlag() throws IOException {
         String js = readResource("static/js/capability-registry.js");
         assertTrue(js.contains("available: true"), "Missing available: true flag");
-        assertTrue(js.contains("available: false"), "Missing available: false flag");
+        assertTrue(js.contains("id: 'reporting', labelKey: 'capability.reporting', route: '/reporting', available: true"), "Reporting capability should be available");
     }
 
     @Test
@@ -52,9 +52,9 @@ class DashboardNavigationTest {
     }
 
     @Test
-    void unavailableCapabilitiesHaveNullRoute() throws IOException {
+    void reportingCapabilityHasLiveRoute() throws IOException {
         String js = readResource("static/js/capability-registry.js");
-        assertTrue(js.contains("route: null"), "Unavailable capabilities should have null route");
+        assertTrue(js.contains("route: '/reporting'"), "Reporting should have a live route");
     }
 
     @Test
@@ -132,7 +132,7 @@ class DashboardNavigationTest {
         String html = readResource("templates/dashboard.html");
         assertFalse(html.contains("href=\"/invoices\""), "Invoices should not have a direct link");
         assertFalse(html.contains("href=\"/banking\""), "Banking should not have a direct link");
-        assertFalse(html.contains("href=\"/reporting\""), "Reporting should not have a direct link");
+        assertTrue(html.contains("href=\"/reporting?type=invoice-status\""), "Reporting should have a summary link");
     }
 
     @Test

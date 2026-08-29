@@ -1,9 +1,9 @@
 ## 1. Preconditions and Source Contracts
 
-- [ ] 1.1 Verify that `auth-jwt-admin-bootstrap` provides authenticated `ADMIN` principal, organization context, and the shared API error contract
-- [ ] 1.2 Verify sales-document, payment/banking, expense, and tax source contracts expose organization, status, amount, currency, source id, and required date fields
-- [ ] 1.3 Confirm report date-basis mapping for `received_at`, `transaction_date`, `issue_date`, `due_date`, `expense_date`, and document date
-- [ ] 1.4 Confirm the report default date window, maximum page size, maximum CSV export rows, supported sort fields, and timezone behavior
+- [x] 1.1 Verify that `auth-jwt-admin-bootstrap` provides authenticated `ADMIN` principal, organization context, and the shared API error contract
+- [x] 1.2 Verify sales-document, payment/banking, expense, and tax source contracts expose organization, status, amount, currency, source id, and required date fields
+- [x] 1.3 Confirm report date-basis mapping for `received_at`, `transaction_date`, `issue_date`, `due_date`, `expense_date`, and document date
+- [x] 1.4 Confirm the report default date window, maximum page size, maximum CSV export rows, supported sort fields, and timezone behavior
 
 ## 2. Shared Report Query Foundation
 
@@ -19,16 +19,16 @@
 - [ ] 3.1 Implement pending-deposit projection using `received_at` with receipt number, payer, category, reason, note, amount, currency, method, and payment date
 - [ ] 3.2 Implement payment-category grouping with customer, period, category, currency, valid-count, valid-amount, and traceable rows
 - [ ] 3.3 Implement bank-balance projection using `transaction_date`, opening balance, effective Credit/Debit totals, net change, closing balance, and transaction rows
-- [ ] 3.4 Implement reversal-chain handling so original and reversal bank transactions are not counted twice
+- [x] 3.4 Implement reversal-chain handling so original and reversal bank transactions are not counted twice
 - [ ] 3.5 Add payment and banking report tests for date boundaries, category/customer/currency/account filters, pending state, void exclusion, and balance recomputation
 
 ## 4. Invoice, Receivable, Expense, and Tax Reports
 
-- [ ] 4.1 Implement invoice-status report using issue/status date, customer/currency/status filters, and traceable invoice rows
+- [x] 4.1 Implement invoice-status report using issue/status date, customer/currency/status filters, and traceable invoice rows
 - [ ] 4.2 Implement receivable-aging report using due date and effective outstanding balance with not-due, 1-30, 31-60, and 61-plus day buckets
-- [ ] 4.3 Implement expense report using `expense_date`, expense category, payee, account, currency, status, amount, and source rows
+- [x] 4.3 Implement expense report using `expense_date`, expense category, payee, account, currency, status, amount, and source rows
 - [ ] 4.4 Implement tax report using document date, tax rate, tax amount, currency, source document, and period totals
-- [ ] 4.5 Implement ERP cash-flow summary using posted payment Credits and valid expense Debits with income, expense, net, and source rows
+- [x] 4.5 Implement ERP cash-flow summary using posted payment Credits and valid expense Debits with income, expense, net, and source rows
 - [ ] 4.6 Add report tests for paid/cancelled/voided source exclusion, aging boundaries, status totals, tax aggregation, and cash-flow reconciliation
 
 ## 5. Source Traceability and Security
@@ -41,12 +41,15 @@
 
 ## 6. Reporting APIs and CSV Export
 
-- [ ] 6.1 Implement versioned Web API endpoints for each report type with DTO binding, validation, authorization, consistent response shape, and centralized errors
-- [ ] 6.2 Keep report Web API Controllers limited to request parsing, service invocation, and DTO response assembly; keep page routing in separate MVC Controllers
-- [ ] 6.3 Implement CSV generation by reusing the same normalized query specification, effective-state rules, sort, date basis, and filters as the report API
-- [ ] 6.4 Include CSV metadata for report type, applied filters, date basis, currency, headings, summary, and generation time
-- [ ] 6.5 Enforce bounded export size and ensure query/serialization failure does not publish a partial or apparently successful file
+- [x] 6.1 Implement versioned Web API endpoints for each report type with DTO binding, validation, authorization, consistent response shape, and centralized errors
+- [x] 6.2 Keep report Web API Controllers limited to request parsing, service invocation, and DTO response assembly; keep page routing in separate MVC Controllers
+- [x] 6.3 Implement CSV generation by reusing the same normalized query specification, effective-state rules, sort, date basis, and filters as the report API
+- [x] 6.4 Include CSV metadata for report type, applied filters, date basis, currency, headings, summary, and generation time
+- [x] 6.5 Enforce bounded export size and ensure query/serialization failure does not publish a partial or apparently successful file
 - [ ] 6.6 Add API and CSV tests for filtered output, empty output, invalid bounds, export consistency with query results, download errors, and organization isolation
+- [ ] 6.7 Implement PDF export with fixed localized layout, report metadata, summary, source references, bounded output, and offline-local font/resource handling
+- [ ] 6.8 Implement XLSX export with fixed localized worksheets, detail and summary sections, decimal/date/currency formatting, bounded output, and offline build support
+- [ ] 6.9 Add PDF/XLSX tests for file readability, metadata, filtered consistency, empty output, limit errors, failure cleanup, and organization isolation
 
 ## 7. Offline Responsive Report Experience
 
@@ -56,6 +59,8 @@
 - [ ] 7.4 Provide visible keyboard focus and accessible names for filters, pagination, row actions, source navigation, and export controls
 - [ ] 7.5 Ensure report tables and filters remain readable without overlap or hidden content at supported viewport sizes
 - [ ] 7.6 Add browser tests for report loading/error/empty states, filters, pagination, source navigation, CSV download, keyboard operation, offline assets, and mobile layout
+- [ ] 7.7 Implement Dashboard report entry, core summary cards, loading/error/empty states, and links that preserve validated report filters
+- [ ] 7.8 Add Dashboard integration tests proving capability availability, summary consistency with report responses, authorization, and organization isolation
 
 ## 8. End-to-End Verification and Delivery
 
@@ -64,3 +69,6 @@
 - [ ] 8.3 Verify bank reversals, payment voids, invoice cancellations, and effective-state exclusions do not duplicate report totals
 - [ ] 8.4 Run formatting, static checks, test suites, browser tests, and the full build; resolve only failures introduced by this change
 - [ ] 8.5 Document source capability prerequisites, report endpoint contract, date-basis rules, export limits, offline startup, deployment order, and rollback procedure
+- [ ] 8.6 Verify CSV, PDF, and XLSX output consistency against the same normalized query specification and summary
+- [ ] 8.7 Verify Dashboard summaries and navigation against report APIs across supported currencies, date boundaries, statuses, and empty data
+- [ ] 8.8 Document PDF/XLSX dependencies, localized formatting, file limits, offline operation, and recovery from failed export generation

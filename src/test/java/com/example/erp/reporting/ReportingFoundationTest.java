@@ -22,6 +22,16 @@ class ReportingFoundationTest {
     }
 
     @Test
+    void treatsBlankCurrencyAsAnOptionalFilter() {
+        ReportFilterRequest request = new ReportFilterRequest(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 2), null, null, null, "  ", null, "date", "DESC", 0, 20);
+
+        request.validate(DateBasis.EXPENSE_DATE, Set.of("date"));
+
+        assertThat(request.currencyCode()).isNull();
+        assertThat(AppliedFilters.from(request).currencyCode()).isNull();
+    }
+
+    @Test
     void rejectsReverseLongOrUnapprovedQueries() {
         ReportFilterRequest reverse = new ReportFilterRequest(LocalDate.of(2026, 2, 1), LocalDate.of(2026, 1, 1), null, null, null, "TWD", null, "date", "DESC", 0, 20);
         ReportFilterRequest longRange = new ReportFilterRequest(LocalDate.of(2024, 1, 1), LocalDate.of(2026, 1, 1), null, null, null, "TWD", null, "date", "DESC", 0, 20);

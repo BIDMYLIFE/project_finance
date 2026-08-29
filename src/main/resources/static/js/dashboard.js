@@ -4,10 +4,11 @@ Vue.createApp({
       identity: null,
       ui: window.erpState.create(),
       loggingOut: false,
-      capabilities: window.erpCapabilities.list()
+      capabilities: window.erpCapabilities.list(),
+      reports: { loading: false, error: '', data: null }
     };
   },
-  mounted: function () { this.loadIdentity(); },
+  mounted: function () { this.loadIdentity(); this.loadReports(); },
   methods: {
     MSG: function (key) { return window.MSG(key); },
     loadIdentity: function () {
@@ -19,6 +20,11 @@ Vue.createApp({
           if (error.response && error.response.status === 401) return;
           window.erpState.setError(self.ui, error);
         });
+    },
+    loadReports: function () {
+      var self = this; self.reports.loading = true; self.reports.error = '';
+      var to = new Date().toISOString().slice(0, 10), from = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+      window.reportsApi.summary({ from: from, to: to }).then(function (response) { self.reports.data = response.data; }).catch(function () { self.reports.error = self.MSG('dashboard.reports.error'); }).finally(function () { self.reports.loading = false; });
     },
     logout: function () {
       var self = this;
