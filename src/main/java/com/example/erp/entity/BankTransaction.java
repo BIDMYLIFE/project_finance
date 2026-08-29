@@ -31,6 +31,7 @@ public class BankTransaction {
     public BankTransaction(UUID id, UUID organizationId, UUID bankAccountId, BankTransactionDirection direction, BigDecimal amount, String currencyCode, LocalDate transactionDate, String sourceType, UUID sourceId, UUID reversalOfId, BankTransactionStatus status, Instant createdAt) {
         this.id = id; this.organizationId = organizationId; this.bankAccountId = bankAccountId; this.direction = direction; this.amount = amount; this.currencyCode = currencyCode; this.transactionDate = transactionDate; this.sourceType = sourceType; this.sourceId = sourceId; this.reversalOfId = reversalOfId; this.status = status; this.createdAt = createdAt;
     }
+    public void reverse() { status = BankTransactionStatus.REVERSED; }
     public UUID getId() { return id; }
     public UUID getOrganizationId() { return organizationId; }
     public UUID getBankAccountId() { return bankAccountId; }

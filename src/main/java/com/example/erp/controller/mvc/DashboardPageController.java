@@ -41,6 +41,7 @@ public class DashboardPageController {
         put(messages, "capability.invoices", locale);
         put(messages, "capability.payments", locale);
         put(messages, "capability.banking", locale);
+        put(messages, "capability.expenses", locale);
         put(messages, "capability.reporting", locale);
         put(messages, "common.error.network", locale);
         put(messages, "common.error.timeout", locale);

@@ -7,6 +7,7 @@
     { id: 'invoices', labelKey: 'capability.invoices', route: '/invoices', available: true, owner: 'invoice-ui-crud' },
     { id: 'payments', labelKey: 'capability.payments', route: '/payments', available: true, owner: 'payment-ui-crud' },
     { id: 'banking', labelKey: 'capability.banking', route: '/banking', available: true, owner: 'bank-account-ui-crud' },
+    { id: 'expenses', labelKey: 'capability.expenses', route: '/expenses', available: true, owner: 'expense-ui-crud' },
     { id: 'reporting', labelKey: 'capability.reporting', route: null, available: false, owner: 'erp-reporting' }
   ];
 
